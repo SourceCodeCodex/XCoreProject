@@ -1,0 +1,22 @@
+package projects;
+
+
+import org.eclipse.cdt.core.model.CModelException;
+import org.eclipse.cdt.core.model.ICContainer;
+import org.eclipse.cdt.core.model.ICProject;
+import org.eclipse.cdt.core.model.IFunctionDeclaration;
+import org.eclipse.cdt.core.model.ITranslationUnit;
+import project.metamodel.entity.CContainer;
+import ro.lrg.xcore.metametamodel.IPropertyComputer;
+import ro.lrg.xcore.metametamodel.PropertyComputer;
+
+@PropertyComputer
+public class ToString implements IPropertyComputer<String, CContainer>{
+	
+	@Override
+	public String compute(CContainer arg0) {
+		return null;
+			 
+	}
+
+}

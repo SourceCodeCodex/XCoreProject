@@ -1,0 +1,14 @@
+package functions;
+
+import ro.lrg.xcore.metametamodel.IPropertyComputer;
+import ro.lrg.xcore.metametamodel.PropertyComputer;
+
+@PropertyComputer
+public class ToString implements IPropertyComputer<String, Function> {
+	
+	@Override
+	public String compute(Function arg0) {
+		return null;
+	}
+
+}

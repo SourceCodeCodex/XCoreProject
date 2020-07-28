@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="ro.lrg.xcore.metametamodel.PropertyComputer"/>
+<fullyQualifiedTypeName name="ro.lrg.xcore.metametamodel.IPropertyComputer"/>
+<fullyQualifiedTypeName name="project.metamodel.entity.CContainer"/>
+<fullyQualifiedTypeName name="org.eclipse.cdt.core.model.ICProject"/>
+<fullyQualifiedTypeName name="project.metamodel.entity.Project"/>
+</qualifiedTypeNameHistroy>
