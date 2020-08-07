@@ -1,0 +1,20 @@
+package continueStatement;
+
+import org.eclipse.cdt.core.dom.ast.IASTContinueStatement;
+import org.eclipse.cdt.core.dom.ast.IASTNode;
+
+import project.metamodel.entity.XCContinueStatement;
+import ro.lrg.xcore.metametamodel.IPropertyComputer;
+import ro.lrg.xcore.metametamodel.PropertyComputer;
+
+@PropertyComputer
+public class ToString implements IPropertyComputer<String, XCContinueStatement>{
+	
+	@Override
+	public String compute(XCContinueStatement arg0) {
+		IASTContinueStatement c= (IASTContinueStatement)arg0.getUnderlyingObject();	
+		IASTNode p= c.getParent();
+		return p.getRawSignature()+"-"+c.getRawSignature();
+	}
+
+}

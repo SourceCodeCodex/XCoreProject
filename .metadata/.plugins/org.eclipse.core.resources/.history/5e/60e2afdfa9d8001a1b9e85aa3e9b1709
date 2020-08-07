@@ -1,0 +1,30 @@
+package continueStatement;
+
+import org.eclipse.cdt.core.dom.ast.IASTContinueStatement;
+import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
+import org.eclipse.cdt.core.model.ITranslationUnit;
+import org.eclipse.cdt.core.parser.IToken;
+
+import project.metamodel.entity.XCContinueStatement;
+import ro.lrg.xcore.metametamodel.IPropertyComputer;
+import ro.lrg.xcore.metametamodel.PropertyComputer;
+
+@PropertyComputer
+public class ToString implements IPropertyComputer<String, XCContinueStatement>{
+	
+	@Override
+	public String compute(XCContinueStatement arg0) {
+		try {
+		IASTContinueStatement c= (IASTContinueStatement)arg0.getUnderlyingObject();	
+		//IASTTranslationUnit p= c.getTranslationUnit();
+		IToken a=c.getSyntax();
+		String s= a.getImage();
+		}catch( ExpansionOverlapsBoundaryException e) {
+			e.printStackTrace();
+		}
+		//return p.getFilePath()+"--"+c.getRawSignature()+"  ";
+		return s;
+	}
+
+}

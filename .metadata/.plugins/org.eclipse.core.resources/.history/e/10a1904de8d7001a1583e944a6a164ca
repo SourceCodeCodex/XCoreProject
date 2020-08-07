@@ -1,0 +1,2 @@
+bindings=Function,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;CContainer,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;XCCompUnit,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;XCFunctionDeclarator,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;Project,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;XCContinueStatement,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;XCSourceRoot,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;XCProject,java.lang.Object,ro.lrg.xcore.metametamodel.XEntity;
+eclipse.preferences.version=1

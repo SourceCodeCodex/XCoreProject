@@ -21,12 +21,52 @@ public class Factory {
         }
         return (Function)instance;
     }
-   public Project createProject(java.lang.Object obj) {
+   public XCProject createXCProject(java.lang.Object obj) {
        XEntity instance = lruCache_.get(obj);
         if (null == instance) {
-           instance = new ProjectImpl(obj);
+           instance = new XCProjectImpl(obj);
            lruCache_.put(obj, instance);
         }
-        return (Project)instance;
+        return (XCProject)instance;
+    }
+   public XCCompUnit createXCCompUnit(java.lang.Object obj) {
+       XEntity instance = lruCache_.get(obj);
+        if (null == instance) {
+           instance = new XCCompUnitImpl(obj);
+           lruCache_.put(obj, instance);
+        }
+        return (XCCompUnit)instance;
+    }
+   public XCFunctionDeclarator createXCFunctionDeclarator(java.lang.Object obj) {
+       XEntity instance = lruCache_.get(obj);
+        if (null == instance) {
+           instance = new XCFunctionDeclaratorImpl(obj);
+           lruCache_.put(obj, instance);
+        }
+        return (XCFunctionDeclarator)instance;
+    }
+   public XCSourceRoot createXCSourceRoot(java.lang.Object obj) {
+       XEntity instance = lruCache_.get(obj);
+        if (null == instance) {
+           instance = new XCSourceRootImpl(obj);
+           lruCache_.put(obj, instance);
+        }
+        return (XCSourceRoot)instance;
+    }
+   public XCContinueStatement createXCContinueStatement(java.lang.Object obj) {
+       XEntity instance = lruCache_.get(obj);
+        if (null == instance) {
+           instance = new XCContinueStatementImpl(obj);
+           lruCache_.put(obj, instance);
+        }
+        return (XCContinueStatement)instance;
+    }
+   public XCStatement createXCStatement(java.lang.Object obj) {
+       XEntity instance = lruCache_.get(obj);
+        if (null == instance) {
+           instance = new XCStatementImpl(obj);
+           lruCache_.put(obj, instance);
+        }
+        return (XCStatement)instance;
     }
 }

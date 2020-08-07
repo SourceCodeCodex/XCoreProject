@@ -1,0 +1,49 @@
+package compUnit;
+
+import org.eclipse.cdt.core.dom.ast.ASTVisitor;
+import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
+import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
+import org.eclipse.cdt.core.model.ITranslationUnit;
+import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionDeclarator;
+import org.eclipse.core.runtime.CoreException;
+
+import project.metamodel.entity.XCCompUnit;
+import project.metamodel.entity.XCFunctionDeclarator;
+import project.metamodel.factory.Factory;
+import ro.lrg.xcore.metametamodel.IPropertyComputer;
+import ro.lrg.xcore.metametamodel.PropertyComputer;
+
+@PropertyComputer
+public class Prop implements IPropertyComputer<String, XCCompUnit>{
+	String s="";
+	@Override
+	  public String compute(XCCompUnit arg0) {
+		IASTTranslationUnit a = null;
+		ITranslationUnit m=null;
+		ASTVisitor v;
+		try {
+			m=(ITranslationUnit)arg0.getUnderlyingObject();
+			a= m.getAST();
+			}
+			catch(CoreException e)
+			{
+				e.printStackTrace();
+			}
+		
+		 v=new ASTVisitor() {
+				
+				public int visit(IASTDeclarator c) {
+			            s="andreea"";
+						
+							
+					
+					return 3;
+				}
+				
+
+				};
+				v.shouldVisitDeclarators = true;
+				return s;
+	}
+}
