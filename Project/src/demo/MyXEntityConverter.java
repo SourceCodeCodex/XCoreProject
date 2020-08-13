@@ -4,7 +4,6 @@ import org.eclipse.cdt.core.dom.ast.IASTContinueStatement;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
 import org.eclipse.cdt.core.model.ICProject;
-import org.eclipse.cdt.core.model.IFunction;
 import org.eclipse.cdt.core.model.ISourceRoot;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 
@@ -16,9 +15,7 @@ public class MyXEntityConverter implements XEntityConverter {
 
 	@Override
 	public XEntity convert(Object element) {
-		if(element instanceof IFunction)
-			return Factory.getInstance().createFunction((IFunction)element);
-		else if(element instanceof ICProject)
+		if(element instanceof ICProject)
 			return Factory.getInstance().createXCProject((ICProject)element);
 		else if(element instanceof ITranslationUnit)
 			return Factory.getInstance().createXCCompUnit((ITranslationUnit)element);

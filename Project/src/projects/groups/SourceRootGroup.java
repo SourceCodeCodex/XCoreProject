@@ -1,4 +1,4 @@
-package projects;
+package projects.groups;
 
 import org.eclipse.cdt.core.model.CModelException;
 import org.eclipse.cdt.core.model.ICProject;

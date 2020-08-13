@@ -1,4 +1,4 @@
-package projects;
+package projects.properties;
 
 
 import org.eclipse.cdt.core.model.ICProject;
