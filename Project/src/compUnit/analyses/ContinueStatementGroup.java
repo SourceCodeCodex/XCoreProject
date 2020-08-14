@@ -1,4 +1,4 @@
-package compUnit;
+package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTContinueStatement;
@@ -13,6 +13,10 @@ import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
+
+/**
+ * continue statement group
+ */
 
 @RelationBuilder
 public class ContinueStatementGroup implements IRelationBuilder<XCContinueStatement, XCCompUnit>{

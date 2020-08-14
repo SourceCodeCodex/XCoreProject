@@ -1,36 +1,38 @@
 package projects.analyses;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCFunctionDeclarator;
+import project.metamodel.entity.XCFunction;
 import project.metamodel.entity.XCProject;
-import project.metamodel.entity.XCSourceRoot;
 import ro.lrg.xcore.metametamodel.Group;
-import ro.lrg.xcore.metametamodel.IPropertyComputer;
-import ro.lrg.xcore.metametamodel.PropertyComputer;
+import ro.lrg.xcore.metametamodel.IRelationBuilder;
+import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-@PropertyComputer
-public class Rule16_5 implements IPropertyComputer<String,XCProject>{
+/**
+ * Functions with no parameters shall be declared and defined with the parameter list void.
+ */
+
+@RelationBuilder
+public class Rule16_5 implements IRelationBuilder<XCFunction,XCProject>{
 	
 	@Override
-	public String compute(XCProject arg0) {
-    String s=new String();
-	Group<XCSourceRoot> sourceR= new Group<>();
-	Group<XCCompUnit> compU= new Group<>();
-	Group<XCFunctionDeclarator> funcD = new Group<>();
+	public Group<XCFunction> buildGroup(XCProject arg0) {
 	
-	sourceR=arg0.sourceRootGroup();
-	
-	for(XCSourceRoot sr:sourceR.getElements()) {
-		compU=sr.compUnitGroup();
-		for(XCCompUnit cu: compU.getElements()) {
-			funcD = cu.functionsWithNoParamGroup();
-			for(XCFunctionDeclarator fd:funcD.getElements()) {
-				s = s +fd.toString()+ " ";
+		Group<XCCompUnit> compU = new Group<>();
+		Group<XCFunction> funcD = new Group<>();
+		Group<XCFunction> f = new Group<>();
+		
+		compU = arg0.compUnitGroup();
+		for(XCCompUnit cu: compU.getElements())
+		{
+			f = cu.functionsWithNoParamGroup();
+			for(XCFunction fd:f.getElements()) 
+			{
+				funcD.add(fd);
 			}
 		}
-	}
+	
 		
-		return s;
+		return funcD;
 	}
 
 }

@@ -15,18 +15,17 @@ public class MyXEntityConverter implements XEntityConverter {
 
 	@Override
 	public XEntity convert(Object element) {
+		
 		if(element instanceof ICProject)
 			return Factory.getInstance().createXCProject((ICProject)element);
 		else if(element instanceof ITranslationUnit)
 			return Factory.getInstance().createXCCompUnit((ITranslationUnit)element);
-		else if(element instanceof ISourceRoot)
-			return Factory.getInstance().createXCSourceRoot((ISourceRoot)element);
 		else if(element instanceof IASTContinueStatement)
 			return Factory.getInstance().createXCContinueStatement((IASTContinueStatement)element);
 		else if(element instanceof IASTStatement)
 			return Factory.getInstance().createXCStatement((IASTStatement)element);
 		else if(element instanceof IASTFunctionDeclarator)
-			return Factory.getInstance().createXCFunctionDeclarator((IASTFunctionDeclarator)element);
+			return Factory.getInstance().createXCFunction((IASTFunctionDeclarator)element);
 		return null;
 		
 	}

@@ -3,34 +3,37 @@ package projects.analyses;
 import project.metamodel.entity.XCCompUnit;
 import project.metamodel.entity.XCContinueStatement;
 import project.metamodel.entity.XCProject;
-import project.metamodel.entity.XCSourceRoot;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IPropertyComputer;
+import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.PropertyComputer;
+import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-@PropertyComputer
-public class Rule14_5 implements IPropertyComputer<String,XCProject>{
+/**
+ * The continue statement shall not be used
+ */
+
+@RelationBuilder
+public class Rule14_5 implements IRelationBuilder<XCContinueStatement,XCProject>{
 	
 	@Override
-	public String compute(XCProject arg0) {
-    String s=new String();
-	Group<XCSourceRoot> sourceR= new Group<>();
-	Group<XCCompUnit> compU= new Group<>();
-	Group<XCContinueStatement> continueS = new Group<>();
-	
-	sourceR=arg0.sourceRootGroup();
-	
-	for(XCSourceRoot sr:sourceR.getElements()) {
-		compU=sr.compUnitGroup();
-		for(XCCompUnit cu: compU.getElements()) {
-			continueS = cu.continueStatementGroup();
-			for(XCContinueStatement cs:continueS.getElements()) {
-				s = s +cs.toString()+ " ";
-			}
-		}
-	}
+	public Group<XCContinueStatement> buildGroup(XCProject arg0) {
+
+		Group<XCCompUnit> compU = new Group<>();
+		Group<XCContinueStatement> continueS = new Group<>();
+		Group<XCContinueStatement> contS = new Group<>();
 		
-		return s;
+		compU = arg0.compUnitGroup();
+		for(XCCompUnit cu: compU.getElements())
+		{
+			contS = cu.continueStatementGroup();
+	        for(XCContinueStatement cs:contS.getElements()) 
+	        {
+				continueS.add(cs);
+	        }
+		}
+		
+		return continueS;
 	}
 
 }

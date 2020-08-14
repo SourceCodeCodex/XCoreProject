@@ -1,4 +1,4 @@
-package statements;
+package statements.properties;
 
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
 import project.metamodel.entity.XCStatement;
@@ -10,8 +10,10 @@ public class ToString implements IPropertyComputer<String, XCStatement>{
 	
 	@Override
 	public String compute(XCStatement arg0) {
-		IASTStatement c= (IASTStatement)arg0.getUnderlyingObject();	
+		
+		IASTStatement c = (IASTStatement)arg0.getUnderlyingObject();	
 		return c.getRawSignature();
+		
 	}
 
 }

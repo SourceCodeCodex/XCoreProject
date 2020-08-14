@@ -1,4 +1,4 @@
-package continueStatement;
+package statements.continueStatement.properties;
 
 import org.eclipse.cdt.core.dom.ast.IASTContinueStatement;
 
@@ -11,8 +11,10 @@ public class ToString implements IPropertyComputer<String, XCContinueStatement>{
 	
 	@Override
 	public String compute(XCContinueStatement arg0) {
-		IASTContinueStatement c= (IASTContinueStatement)arg0.getUnderlyingObject();	
+		
+		IASTContinueStatement c = (IASTContinueStatement)arg0.getUnderlyingObject();	
         return c.getRawSignature();
+        
 	}
 
 

@@ -1,4 +1,4 @@
-package compUnit;
+package compUnit.properties;
 
 import org.eclipse.cdt.core.model.ITranslationUnit;
 
@@ -11,7 +11,8 @@ public class ToString implements IPropertyComputer<String, XCCompUnit>{
 	
 	@Override
 	public String compute(XCCompUnit arg0) {
-		ITranslationUnit m=(ITranslationUnit)arg0.getUnderlyingObject();
+		
+		ITranslationUnit m = (ITranslationUnit)arg0.getUnderlyingObject();
 		 return m.getElementName();
 	}
 

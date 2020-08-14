@@ -1,4 +1,4 @@
-package compUnit;
+package compUnit.tmp;
 
 import org.eclipse.cdt.core.dom.ast.ExpansionOverlapsBoundaryException;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
@@ -11,11 +11,16 @@ import project.metamodel.entity.XCCompUnit;
 import ro.lrg.xcore.metametamodel.IPropertyComputer;
 import ro.lrg.xcore.metametamodel.PropertyComputer;
 
+/**
+ * syntax tree
+ */
 
 @PropertyComputer
 public class Print implements IPropertyComputer<String, XCCompUnit>{
+	  
 	@Override
-	  public String compute(XCCompUnit arg0) {
+	public String compute(XCCompUnit arg0) {
+		
 		String s=new String();
 		IASTTranslationUnit a = null;
 		ITranslationUnit m=null;
@@ -23,7 +28,7 @@ public class Print implements IPropertyComputer<String, XCCompUnit>{
 			m=(ITranslationUnit)arg0.getUnderlyingObject();
 			a= m.getAST();
 			}
-			catch(CoreException e)
+		catch(CoreException e)
 			{
 				e.printStackTrace();
 			}
@@ -32,28 +37,33 @@ public class Print implements IPropertyComputer<String, XCCompUnit>{
 	}
 		
 	private void printTree(IASTNode node, int index) {
-			    IASTNode[] children = node.getChildren();
-			
-			  boolean printContents = true;
+			   
+		IASTNode[] children = node.getChildren();
+		boolean printContents = true;
 		
-		  if ((node instanceof CPPASTTranslationUnit)) {
+	    if ((node instanceof CPPASTTranslationUnit)) {
 			  printContents = false;
 			   }
 			
-			 String offset = "";
-		  try {
-		  offset = node.getSyntax() != null ? " (offset: " + node.getFileLocation().getNodeOffset() + "," + node.getFileLocation().getNodeLength() + ")" : "";
-	   printContents = node.getFileLocation().getNodeLength() < 30;
-		  } catch (ExpansionOverlapsBoundaryException e) {
-			   e.printStackTrace();
-			    } catch (UnsupportedOperationException e) {
-			      offset = "UnsupportedOperationException";
-		     }
+		String offset = "";
+		try {
+			offset = node.getSyntax() != null ? " (offset: " + node.getFileLocation().getNodeOffset() + "," + node.getFileLocation().getNodeLength() + ")" : "";
+		    printContents = node.getFileLocation().getNodeLength() < 30;
+		 }
+		catch (ExpansionOverlapsBoundaryException e) 
+		{
+		    e.printStackTrace();
+	    }
+		catch (UnsupportedOperationException e)
+		{
+			offset = "UnsupportedOperationException";
+		}
 			
-	System.out.println(String.format(new StringBuilder("%1$").append(index * 2).append("s").toString(), new Object[] { "-" }) + node.getClass().getSimpleName() + offset + " -> " + (printContents ? node.getRawSignature().replaceAll("\n", " \\ ") : node.getRawSignature().subSequence(0, 5)));
+		System.out.println(String.format(new StringBuilder("%1$").append(index * 2).append("s").toString(), new Object[] { "-" }) + node.getClass().getSimpleName() + offset + " -> " + (printContents ? node.getRawSignature().replaceAll("\n", " \\ ") : node.getRawSignature().subSequence(0, 5)));
 		
 			  for (IASTNode iastNode : children)
 		       printTree(iastNode, index + 1);
-	  }
+	 
+	}
 	
 	}

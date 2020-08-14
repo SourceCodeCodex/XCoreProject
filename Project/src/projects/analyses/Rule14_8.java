@@ -1,36 +1,39 @@
 package projects.analyses;
 
 import project.metamodel.entity.XCCompUnit;
+import project.metamodel.entity.XCContinueStatement;
 import project.metamodel.entity.XCProject;
-import project.metamodel.entity.XCSourceRoot;
 import project.metamodel.entity.XCStatement;
 import ro.lrg.xcore.metametamodel.Group;
-import ro.lrg.xcore.metametamodel.IPropertyComputer;
-import ro.lrg.xcore.metametamodel.PropertyComputer;
+import ro.lrg.xcore.metametamodel.IRelationBuilder;
+import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-@PropertyComputer
-public class Rule14_8 implements IPropertyComputer<String,XCProject>{
+/**
+ * The statement forming the body of a switch, while, do … while or for statement shall be a compound statement
+ */
+
+@RelationBuilder
+public class Rule14_8 implements IRelationBuilder<XCStatement,XCProject>{
 	
 	@Override
-	public String compute(XCProject arg0) {
-    String s=new String();
-	Group<XCSourceRoot> sourceR= new Group<>();
-	Group<XCCompUnit> compU= new Group<>();
-	Group<XCStatement> statement = new Group<>();
+	public Group<XCStatement> buildGroup(XCProject arg0) {
+		
+		Group<XCCompUnit> compU = new Group<>();
+		Group<XCStatement> statement = new Group<>();
+		Group<XCStatement> s = new Group<>();
 	
-	sourceR=arg0.sourceRootGroup();
-	
-	for(XCSourceRoot sr:sourceR.getElements()) {
-		compU=sr.compUnitGroup();
-		for(XCCompUnit cu: compU.getElements()) {
-			statement = cu.statementWithoutEnclosedBodyGroup();
-			for(XCStatement cs:statement.getElements()) {
-				s = s +cs.toString()+ " ";
+		compU = arg0.compUnitGroup();
+		for(XCCompUnit cu: compU.getElements()) 
+		{
+			s = cu.statementWithoutEnclosedBodyGroup();
+			for(XCStatement cs:s.getElements())
+			{
+				statement.add(cs);
 			}
 		}
-	}
+
 		
-		return s;
+		return statement;
 	}
 }
 
