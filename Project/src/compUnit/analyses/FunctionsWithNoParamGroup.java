@@ -6,6 +6,7 @@ import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
+import org.eclipse.cdt.core.model.IFunction;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
@@ -46,7 +47,7 @@ public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, X
 				if(c instanceof  IASTFunctionDeclarator) {
 					IASTNode children[] = c.getChildren();
 					if(children.length == 1)
-					{
+					{  
 						XCFunction p = Factory.getInstance().createXCFunction(c);
 						res.add(p);
 					}
