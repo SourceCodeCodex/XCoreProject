@@ -40,12 +40,15 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCFunctionCal
 				{ 
 					String s = c.getRawSignature();
 					int n = s.indexOf('(');
-					s = s.substring(0, n);
-					
-					if(s.equals("atof") || s.equals("atol") || s.equals("atoi") )
+					if(n != -1) 
 					{
-						XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression(c);
-						res.add(expr);
+						s = s.substring(0, n);
+					
+						if(s.equals("atof") || s.equals("atol") || s.equals("atoi") )
+						{
+							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression(c);
+							res.add(expr);
+						}
 					}
 					
 				}
