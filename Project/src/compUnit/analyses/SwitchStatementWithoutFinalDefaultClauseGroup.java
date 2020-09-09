@@ -1,6 +1,7 @@
 package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
+import org.eclipse.cdt.core.dom.ast.IASTCaseStatement;
 import org.eclipse.cdt.core.dom.ast.IASTCompoundStatement;
 import org.eclipse.cdt.core.dom.ast.IASTDefaultStatement;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
@@ -20,7 +21,7 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 
 @RelationBuilder
-public class SwitchStatementWithoutDefaultClauseGroup implements IRelationBuilder<XCStatement, XCCompUnit>{
+public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationBuilder<XCStatement, XCCompUnit>{
 	
 	@Override
 	public Group<XCStatement> buildGroup(XCCompUnit arg0) {
@@ -49,12 +50,19 @@ public class SwitchStatementWithoutDefaultClauseGroup implements IRelationBuilde
 					IASTNode s[] = c.getChildren();
 					IASTCompoundStatement cs = (IASTCompoundStatement) s[1];
 					IASTNode l[] = cs.getChildren();
-					int ok=0;
-					for(IASTNode p:l)
+					int ok = 0;
+					
+					for(int i = 0; i < l.length; i++)
 					{
-						if(p instanceof IASTDefaultStatement)	
-						{   
-							ok=1;
+						if(l[i] instanceof IASTDefaultStatement)	
+						{   ok = 1;
+							for( int j = i; j < l.length; j++)
+							{
+								if(l[j] instanceof IASTCaseStatement) {
+									ok = 0; 
+									break;
+								}
+							}
 						}
 					}
 					if(ok == 0)

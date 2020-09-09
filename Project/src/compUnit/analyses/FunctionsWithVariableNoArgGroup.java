@@ -62,10 +62,10 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 			}
 	
 
-	};
-	v.shouldVisitDeclarators = true;
-	a.accept(v);
-    return res;
+		};
+		v.shouldVisitDeclarators = true;
+		a.accept(v);
+		return res;
 	}
 }
 

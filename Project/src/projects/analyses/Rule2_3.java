@@ -7,6 +7,10 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
+/**
+ * Rule 2.3 (required): The character sequence /* shall not be used within a comment
+ */
+
 @RelationBuilder
 public class Rule2_3 implements IRelationBuilder<XCComment,XCProject>{
 	
@@ -16,6 +20,7 @@ public class Rule2_3 implements IRelationBuilder<XCComment,XCProject>{
 		Group<XCCompUnit> compU = new Group<>();
 		Group<XCComment> comments = new Group<>();
 		Group<XCComment> comm = new Group<>();
+		
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements())
 		{

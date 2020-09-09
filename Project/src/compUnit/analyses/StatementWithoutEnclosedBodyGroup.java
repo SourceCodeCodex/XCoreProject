@@ -66,10 +66,10 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 				}
 			else
 				if(c instanceof  IASTSwitchStatement)
-				{
-					int index = c.getRawSignature().indexOf("case");
-					index--;
-					if(c.getRawSignature().charAt(index) != '{')
+				{   IASTNode child = c.getChildren()[1];
+					String s = child.getRawSignature();
+					
+					if(s.charAt(0) != '{' )
 					{
 						XCStatement p = Factory.getInstance().createXCStatement(c);
 						res.add(p);

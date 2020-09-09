@@ -1,6 +1,6 @@
-package enumeration.analyses;
+package specifier.compositeType.union.analyses;
 
-import org.eclipse.cdt.core.dom.ast.IASTEnumerationSpecifier;
+import org.eclipse.cdt.core.dom.ast.IASTCompositeTypeSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTImageLocation;
 import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
 import org.eclipse.core.filebuffers.FileBuffers;
@@ -13,21 +13,21 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import project.metamodel.entity.XCEnumeration;
+import project.metamodel.entity.XCUnion;
 import ro.lrg.xcore.metametamodel.ActionPerformer;
 import ro.lrg.xcore.metametamodel.HListEmpty;
 import ro.lrg.xcore.metametamodel.IActionPerformer;
 
 @ActionPerformer
-public class ShowInEditor implements IActionPerformer<Void, XCEnumeration, HListEmpty>{
+public class ShowInEditor implements IActionPerformer<Void, XCUnion, HListEmpty>{
 	
 	@Override
-	public Void performAction(XCEnumeration arg0, HListEmpty arg1) {	
+	public Void performAction(XCUnion arg0, HListEmpty arg1) {	
 		
 		try 
 		{
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IASTEnumerationSpecifier c = (IASTEnumerationSpecifier)arg0.getUnderlyingObject();
+			IASTCompositeTypeSpecifier c = (IASTCompositeTypeSpecifier)arg0.getUnderlyingObject();
 			IPath path = new Path(c.getContainingFilename());
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(path);
 			ITextEditor editor = (ITextEditor) IDE.openEditor(page, file);

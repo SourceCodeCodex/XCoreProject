@@ -1,4 +1,4 @@
-package enumeration.properties;
+package specifier.enumeration.properties;
 
 import org.eclipse.cdt.core.dom.ast.IASTEnumerationSpecifier;
 import project.metamodel.entity.XCEnumeration;

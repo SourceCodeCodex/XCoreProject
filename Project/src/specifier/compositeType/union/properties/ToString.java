@@ -1,4 +1,4 @@
-package compositeType.union.properties;
+package specifier.compositeType.union.properties;
 
 import org.eclipse.cdt.core.dom.ast.IASTCompositeTypeSpecifier;
 import project.metamodel.entity.XCUnion;

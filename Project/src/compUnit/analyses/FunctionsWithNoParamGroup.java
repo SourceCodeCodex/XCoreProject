@@ -58,10 +58,10 @@ public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, X
 			}
 	
 
-	};
-	v.shouldVisitDeclarators = true;
-	a.accept(v);
-    return res;
+		};
+		v.shouldVisitDeclarators = true;
+		a.accept(v);
+		return res;
 
 	}
 }

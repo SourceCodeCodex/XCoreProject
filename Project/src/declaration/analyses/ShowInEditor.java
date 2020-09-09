@@ -1,7 +1,7 @@
-package function.analyses;
+package declaration.analyses;
 
-import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTImageLocation;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.resources.IFile;
@@ -13,33 +13,32 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import project.metamodel.entity.XCFunction;
+import project.metamodel.entity.XCDeclaration;
 import ro.lrg.xcore.metametamodel.ActionPerformer;
 import ro.lrg.xcore.metametamodel.HListEmpty;
 import ro.lrg.xcore.metametamodel.IActionPerformer;
 
 @ActionPerformer
-public class ShowInEditor implements IActionPerformer<Void, XCFunction, HListEmpty>{
+public class ShowInEditor implements IActionPerformer<Void, XCDeclaration, HListEmpty>{
 	
 	@Override
-	public Void performAction(XCFunction arg0, HListEmpty arg1) {	
+	public Void performAction(XCDeclaration arg0, HListEmpty arg1) {	
 		
-		try {			
-			IASTFunctionDeclarator c = (IASTFunctionDeclarator)arg0.getUnderlyingObject();
+		try 
+		{
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IASTSimpleDeclaration c = (IASTSimpleDeclaration)arg0.getUnderlyingObject();
 			IPath path = new Path(c.getContainingFilename());
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(path);
 			ITextEditor editor = (ITextEditor) IDE.openEditor(page, file);
-		    IASTImageLocation l = ((ASTNode) c).getImageLocation();
-	        editor.selectAndReveal(l.getNodeOffset(), ((ASTNode) c).getLength());
-	        
+			IASTImageLocation l = ((ASTNode) c).getImageLocation();
+			editor.selectAndReveal(l.getNodeOffset(), ((ASTNode) c).getLength());
 		}
 		catch( PartInitException e)
-		{	
+		{
 			e.printStackTrace();	
-		
 		}
-		return null;
 	
+		return null;
 	}
 }

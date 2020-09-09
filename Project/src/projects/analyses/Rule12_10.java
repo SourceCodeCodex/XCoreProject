@@ -1,6 +1,5 @@
 package projects.analyses;
 
-import project.metamodel.entity.XCComment;
 import project.metamodel.entity.XCCompUnit;
 import project.metamodel.entity.XCExpressionList;
 import project.metamodel.entity.XCProject;

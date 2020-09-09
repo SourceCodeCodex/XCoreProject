@@ -9,6 +9,7 @@ import org.eclipse.cdt.core.dom.ast.IASTFunctionCallExpression;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTGotoStatement;
 import org.eclipse.cdt.core.dom.ast.IASTPreprocessorIncludeStatement;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
 import org.eclipse.cdt.core.model.ICProject;
 import org.eclipse.cdt.core.model.ISourceRoot;
@@ -47,6 +48,8 @@ public class MyXEntityConverter implements XEntityConverter {
 			return Factory.getInstance().createXCComment((IASTComment)element);
 		else if(element instanceof IASTFunctionDeclarator)
 			return Factory.getInstance().createXCFunction((IASTFunctionDeclarator)element);
+		else if(element instanceof IASTSimpleDeclaration)
+			return Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)element);
 		return null;
 		
 	}

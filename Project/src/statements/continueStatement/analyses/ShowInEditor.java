@@ -1,7 +1,8 @@
 package statements.continueStatement.analyses;
 
+import org.eclipse.cdt.core.dom.ast.IASTContinueStatement;
 import org.eclipse.cdt.core.dom.ast.IASTImageLocation;
-import org.eclipse.cdt.internal.core.dom.parser.c.CASTContinueStatement;
+import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -25,12 +26,12 @@ public class ShowInEditor implements IActionPerformer<Void, XCContinueStatement,
 		
 		try {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			CASTContinueStatement c = (CASTContinueStatement)arg0.getUnderlyingObject();
+			IASTContinueStatement c = (IASTContinueStatement)arg0.getUnderlyingObject();
 			IPath path = new Path(c.getContainingFilename());
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(path);
 			ITextEditor editor = (ITextEditor) IDE.openEditor(page, file);
-		    IASTImageLocation l = c.getImageLocation();
-			editor.selectAndReveal(l.getNodeOffset(), c.getLength());
+		    IASTImageLocation l = ((ASTNode) c).getImageLocation();
+			editor.selectAndReveal(l.getNodeOffset(), ((ASTNode) c).getLength());
 		}
 		catch( PartInitException e)
 		{	

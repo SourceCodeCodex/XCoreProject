@@ -40,12 +40,14 @@ public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCFunctio
 				{ 
 					String s = c.getRawSignature();
 					int n = s.indexOf('(');
-					s = s.substring(0, n);
+					if(n != -1)
+					{	s = s.substring(0, n);
 					
-					if(s.equals("abort") || s.equals("exit") || s.equals("getenv") || s.equals("system"))
-					{
-						XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression(c);
-						res.add(expr);
+						if(s.equals("abort") || s.equals("exit") || s.equals("getenv") || s.equals("system"))
+						{
+							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression(c);
+							res.add(expr);
+						}
 					}
 					
 				}
