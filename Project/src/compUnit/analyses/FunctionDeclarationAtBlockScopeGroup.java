@@ -1,7 +1,7 @@
 package compUnit.analyses;
 
-
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
+import org.eclipse.cdt.core.dom.ast.IASTDeclarationStatement;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
@@ -17,12 +17,8 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-/**
- * group of functions with a variable number of arguments
- */
-
 @RelationBuilder
-public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunction, XCCompUnit>{
+public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XCFunction, XCCompUnit>{
 	
 	@Override
 	public Group<XCFunction> buildGroup(XCCompUnit arg0) {
@@ -45,16 +41,12 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 			public int visit(IASTDeclarator c) {
        
 				if(c instanceof  IASTFunctionDeclarator) {
-				IASTNode children[] = c.getChildren();
-				IASTNode parent = c.getParent();
-				if(children.length > 1)
+				IASTNode p1 = c.getParent();
+				IASTNode p2 = p1.getParent();
+				if(p1 instanceof IASTSimpleDeclaration && p2 instanceof IASTDeclarationStatement)
 				{
 					XCFunction p = Factory.getInstance().createXCFunction(c);
-					String f = p.toString();
-					int index = f.indexOf("...");
-					
-					if(index>0 && index<f.length()-1 && !(parent instanceof IASTSimpleDeclaration))
-						res.add(p);
+					res.add(p);
 						
 				 }
 				}
@@ -70,7 +62,3 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 		return res;
 	}
 }
-
-
-
-
