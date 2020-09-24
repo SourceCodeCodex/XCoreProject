@@ -4,6 +4,7 @@ import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTEnumerationSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -46,7 +47,7 @@ public class EnumerationWithIrregularInitializationGroup implements IRelationBui
 				
 					for(int i=2; i<children.length; i++)
 					{
-						if(children[i].getChildren().length == 2)
+						if(children[i].getChildren().length >= 2)
 							{
 							k2++;
 							}
@@ -59,7 +60,7 @@ public class EnumerationWithIrregularInitializationGroup implements IRelationBui
 						res.add(e);
 					}
 					else
-					if(k1 == 1 && k2 != children.length-2)
+					if(k1 == 1 && (k2 != children.length-2 && k2!=0))
 					{	
 						XCEnumeration e = Factory.getInstance().createXCEnumeration(c);
 						res.add(e);

@@ -1,8 +1,9 @@
 package projects.groups;
 
 import org.eclipse.cdt.core.model.CModelException;
+import org.eclipse.cdt.core.model.ICElement;
 import org.eclipse.cdt.core.model.ICProject;
-import org.eclipse.cdt.core.model.ISourceRoot;
+import org.eclipse.cdt.core.model.IParent;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 
 import project.metamodel.entity.XCCompUnit;
@@ -23,24 +24,40 @@ public class CompUnitGroup implements IRelationBuilder<XCCompUnit, XCProject>{
 	public Group<XCCompUnit> buildGroup(XCProject arg0){
 		
 		Group<XCCompUnit> res = new Group<>();
-		try {
-				ICProject m = (ICProject) arg0.getUnderlyingObject();
-				ISourceRoot[] all =  m.getAllSourceRoots();
-				for(ISourceRoot aCDTSourceRoot: all)
-				{
-					ITranslationUnit[] allCompUnit = aCDTSourceRoot.getTranslationUnits();
-					for(ITranslationUnit aCDTCompUnit: allCompUnit)
-					{
-						XCCompUnit c = Factory.getInstance().createXCCompUnit(aCDTCompUnit);
-						res.add(c);
-					}
-			
-				}
-		   }catch(CModelException e)
-			{
-			   e.printStackTrace();
-			}
-	return res;
+		ICProject m = (ICProject) arg0.getUnderlyingObject();
+		res = getCompUnits(m);
+	
+	    return res;
 		
+	}
+	
+	private Group<XCCompUnit> getCompUnits(ICElement container){
+		Group<XCCompUnit> res = new Group<XCCompUnit>();
+		Group<XCCompUnit> r = new Group<XCCompUnit>();
+		try {
+		ICElement[] all = ((IParent) container).getChildren();
+		
+		for(ICElement a:all) 
+		{
+			if(a instanceof ITranslationUnit)
+			{
+				XCCompUnit c = Factory.getInstance().createXCCompUnit(a);
+				res.add(c);
+			}
+			else
+			{
+				r = getCompUnits(a);
+			    for(XCCompUnit comp: r.getElements())
+			    {
+			    	res.add(comp);
+			    }
+			}
+		}
+		}catch(CModelException e)
+		{
+		   e.printStackTrace();
+		}
+		
+		return res;
 	}
 }
