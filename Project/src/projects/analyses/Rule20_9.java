@@ -23,15 +23,14 @@ public class Rule20_9 implements IRelationBuilder<XCIncludeStatement,XCProject>{
 	
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements()) 
-		{
+		{   
 			s = cu.stdioHeaderGroup();
 			for(XCIncludeStatement cs:s.getElements())
-			{
+			{ 
 				includeStatement.add(cs);
 			}
 		}
-
-		
+ 		
 		return includeStatement;
 	}
 }
