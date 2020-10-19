@@ -12,7 +12,7 @@ public class ToString implements IPropertyComputer<String, XCContinueStatement>{
 	@Override
 	public String compute(XCContinueStatement arg0) {
 		
-		IASTContinueStatement c = (IASTContinueStatement)arg0.getUnderlyingObject();	
+		IASTContinueStatement c = arg0.getUnderlyingObject();	
         return c.getRawSignature();
         
 	}

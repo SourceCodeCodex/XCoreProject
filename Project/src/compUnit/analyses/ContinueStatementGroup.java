@@ -15,6 +15,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule14_5
  * continue statement group
  */
 
@@ -28,7 +29,7 @@ public class ContinueStatementGroup implements IRelationBuilder<XCContinueStatem
 		Group<XCContinueStatement> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		} catch(CoreException e) {
 			e.printStackTrace();
@@ -37,7 +38,7 @@ public class ContinueStatementGroup implements IRelationBuilder<XCContinueStatem
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTStatement c) {
 				if(c instanceof IASTContinueStatement) {
-					XCContinueStatement p=Factory.getInstance().createXCContinueStatement(c);
+					XCContinueStatement p=Factory.getInstance().createXCContinueStatement((IASTContinueStatement)c);
 					res.add(p);
 				}
 				return PROCESS_CONTINUE;

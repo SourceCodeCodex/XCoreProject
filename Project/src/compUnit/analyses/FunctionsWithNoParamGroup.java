@@ -19,6 +19,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule16_5
  * group of functions with no parameters
  */
 
@@ -34,7 +35,7 @@ public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, X
 		Group<XCFunction> res = new Group<>();
 	
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e)
@@ -50,7 +51,7 @@ public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, X
 					
 					if(children.length == 1)
 					{  
-						XCFunction p = Factory.getInstance().createXCFunction(c);
+						XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
 						res.add(p);
 					}
 				}

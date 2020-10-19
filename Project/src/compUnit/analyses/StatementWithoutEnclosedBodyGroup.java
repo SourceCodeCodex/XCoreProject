@@ -20,6 +20,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule14_8
  *  group of statements (switch, while, do … while or for) without enclosed body
  */
 
@@ -36,7 +37,7 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 		
 		try 
 		{
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e)

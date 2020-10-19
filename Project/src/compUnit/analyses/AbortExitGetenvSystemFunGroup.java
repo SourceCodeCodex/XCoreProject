@@ -15,6 +15,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule20_11
  *  functions abort, exit, getenv and system from library <stdlib.h> 
  */
 
@@ -28,7 +29,7 @@ public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCFunctio
 		Group<XCFunctionCallExpression> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		} catch(CoreException e) {
 			e.printStackTrace();
@@ -45,7 +46,7 @@ public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCFunctio
 					
 						if(s.equals("abort") || s.equals("exit") || s.equals("getenv") || s.equals("system"))
 						{
-							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression(c);
+							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression((IASTFunctionCallExpression)c);
 							res.add(expr);
 						}
 					}

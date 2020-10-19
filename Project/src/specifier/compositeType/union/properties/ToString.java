@@ -11,7 +11,7 @@ public class ToString implements IPropertyComputer<String, XCUnion>{
 	@Override
 	public String compute(XCUnion arg0) {
 		
-		IASTCompositeTypeSpecifier m = (IASTCompositeTypeSpecifier)arg0.getUnderlyingObject();
+		IASTCompositeTypeSpecifier m = arg0.getUnderlyingObject();
 		return m.getRawSignature();
 		 
 	}

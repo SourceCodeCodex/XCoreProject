@@ -4,6 +4,7 @@ import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTFieldDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -14,6 +15,10 @@ import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
+
+/**
+ * Rule 6_5
+ */
 
 
 @RelationBuilder
@@ -26,7 +31,7 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 		Group<XCDeclaration> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e) 
@@ -49,7 +54,7 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 					
 						if(type.indexOf("unsigned") == -1)
 						{
-							XCDeclaration d = Factory.getInstance().createXCDeclaration(p);
+							XCDeclaration d = Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)p);
 							res.add(d);
 						}
 					}

@@ -27,7 +27,7 @@ public class ShowInEditor implements IActionPerformer<Void, XCGotoStatement, HLi
 		try 
 		{
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IASTGotoStatement c = (IASTGotoStatement)arg0.getUnderlyingObject();
+			IASTGotoStatement c = arg0.getUnderlyingObject();
 			IPath path = new Path(c.getContainingFilename());
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(path);
 			ITextEditor editor = (ITextEditor) IDE.openEditor(page, file);

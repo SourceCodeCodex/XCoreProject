@@ -17,6 +17,10 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
+/**
+ * Rule8_6
+ */
+
 @RelationBuilder
 public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XCFunction, XCCompUnit>{
 	
@@ -28,7 +32,7 @@ public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XC
 		Group<XCFunction> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e)
@@ -45,7 +49,7 @@ public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XC
 				IASTNode p2 = p1.getParent();
 				if(p1 instanceof IASTSimpleDeclaration && p2 instanceof IASTDeclarationStatement)
 				{
-					XCFunction p = Factory.getInstance().createXCFunction(c);
+					XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator)c);
 					res.add(p);
 						
 				 }

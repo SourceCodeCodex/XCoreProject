@@ -16,6 +16,11 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
+
+/**
+ * Rule9_3
+ */
+
 @RelationBuilder
 public class EnumerationWithIrregularInitializationGroup implements IRelationBuilder<XCEnumeration, XCCompUnit>{
 	
@@ -26,7 +31,7 @@ public class EnumerationWithIrregularInitializationGroup implements IRelationBui
 		Group<XCEnumeration> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e) 
@@ -56,13 +61,13 @@ public class EnumerationWithIrregularInitializationGroup implements IRelationBui
 				
 					if(k1 == 0 && k2 != 0)
 					{
-						XCEnumeration e = Factory.getInstance().createXCEnumeration(c);
+						XCEnumeration e = Factory.getInstance().createXCEnumeration((IASTEnumerationSpecifier)c);
 						res.add(e);
 					}
 					else
 					if(k1 == 1 && (k2 != children.length-2 && k2!=0))
 					{	
-						XCEnumeration e = Factory.getInstance().createXCEnumeration(c);
+						XCEnumeration e = Factory.getInstance().createXCEnumeration((IASTEnumerationSpecifier)c);
 						res.add(e);
 					}
 				

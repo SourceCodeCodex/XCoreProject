@@ -25,7 +25,7 @@ public class ShowInEditor implements IActionPerformer<Void, XCFunction, HListEmp
 	public Void performAction(XCFunction arg0, HListEmpty arg1) {	
 		
 		try {			
-			IASTFunctionDeclarator c = (IASTFunctionDeclarator)arg0.getUnderlyingObject();
+			IASTFunctionDeclarator c = arg0.getUnderlyingObject();
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			IPath path = new Path(c.getContainingFilename());
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(path);

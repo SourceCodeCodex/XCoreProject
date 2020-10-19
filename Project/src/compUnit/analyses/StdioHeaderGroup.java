@@ -14,6 +14,7 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 
 /**
+ * Rule20_9
  * #include <stdio.h> group
  */
 
@@ -27,7 +28,7 @@ public class StdioHeaderGroup implements IRelationBuilder<XCIncludeStatement, XC
 		Group<XCIncludeStatement> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e) 

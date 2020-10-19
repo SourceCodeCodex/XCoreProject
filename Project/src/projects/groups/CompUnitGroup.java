@@ -24,7 +24,7 @@ public class CompUnitGroup implements IRelationBuilder<XCCompUnit, XCProject>{
 	public Group<XCCompUnit> buildGroup(XCProject arg0){
 		
 		Group<XCCompUnit> res = new Group<>();
-		ICProject m = (ICProject) arg0.getUnderlyingObject();
+		ICProject m = arg0.getUnderlyingObject();
 		res = getCompUnits(m);
 	
 	    return res;
@@ -41,7 +41,7 @@ public class CompUnitGroup implements IRelationBuilder<XCCompUnit, XCProject>{
 		{
 			if(a instanceof ITranslationUnit)
 			{
-				XCCompUnit c = Factory.getInstance().createXCCompUnit(a);
+				XCCompUnit c = Factory.getInstance().createXCCompUnit((ITranslationUnit)a);
 				res.add(c);
 			}
 			else

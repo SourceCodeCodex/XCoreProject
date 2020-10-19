@@ -12,7 +12,7 @@ public class ToString implements IPropertyComputer<String, XCExpressionList> {
 	@Override
 	public String compute(XCExpressionList arg0) {	
 	
-		IASTExpressionList m = (IASTExpressionList)arg0.getUnderlyingObject();
+		IASTExpressionList m = arg0.getUnderlyingObject();
 	    return m.getRawSignature();
 		
 	}

@@ -15,6 +15,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule18_4
  * union group
  */
 
@@ -28,7 +29,7 @@ public class UnionGroup implements IRelationBuilder<XCUnion, XCCompUnit>{
 		Group<XCUnion> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e) 
@@ -42,7 +43,7 @@ public class UnionGroup implements IRelationBuilder<XCUnion, XCCompUnit>{
 				{
 					if(((IASTCompositeTypeSpecifier) c).getKey( )== 2)
 					{
-						XCUnion u = Factory.getInstance().createXCUnion(c);
+						XCUnion u = Factory.getInstance().createXCUnion((IASTCompositeTypeSpecifier) c);
 						res.add(u);
 					}
 				}

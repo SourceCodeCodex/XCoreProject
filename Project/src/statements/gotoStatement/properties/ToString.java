@@ -14,7 +14,7 @@ public class ToString implements IPropertyComputer<String, XCGotoStatement>{
 	public String compute(XCGotoStatement arg0) {
 		
 		
-		IASTGotoStatement c = (IASTGotoStatement)arg0.getUnderlyingObject();	
+		IASTGotoStatement c = arg0.getUnderlyingObject();	
         return c.getRawSignature();
 		
         

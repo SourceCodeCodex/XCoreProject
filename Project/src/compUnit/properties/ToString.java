@@ -12,7 +12,7 @@ public class ToString implements IPropertyComputer<String, XCCompUnit>{
 	@Override
 	public String compute(XCCompUnit arg0) {
 		
-		ITranslationUnit m = (ITranslationUnit)arg0.getUnderlyingObject();
+		ITranslationUnit m = arg0.getUnderlyingObject();
 		 return m.getElementName();
 	}
 

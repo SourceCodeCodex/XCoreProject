@@ -1,6 +1,7 @@
 package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
+import org.eclipse.cdt.core.dom.ast.IASTEnumerationSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTExpressionList;
 import org.eclipse.cdt.core.dom.ast.IASTForStatement;
@@ -18,6 +19,7 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 
 /**
+ * Rule12_10
  * expressionList group
  */
 
@@ -31,7 +33,7 @@ public class ExpressionListGroup implements IRelationBuilder<XCExpressionList, X
 	    ITranslationUnit m = null;
 	    Group<XCExpressionList> res = new Group<>();
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		} 
 		catch(CoreException e)
@@ -62,7 +64,7 @@ public class ExpressionListGroup implements IRelationBuilder<XCExpressionList, X
 					 ok = 0;
 					if(ok == 0) 
 					{
-						XCExpressionList expr = Factory.getInstance().createXCExpressionList(c);
+						XCExpressionList expr = Factory.getInstance().createXCExpressionList((IASTExpressionList)c);
 						res.add(expr);
 					}
 				

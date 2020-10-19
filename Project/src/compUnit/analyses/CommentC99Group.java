@@ -13,6 +13,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule2_2
  * C99 style comments and C++ style comments
  */
 
@@ -26,7 +27,7 @@ public class CommentC99Group implements IRelationBuilder<XCComment, XCCompUnit>{
 		Group<XCComment> res = new Group<>();
 		
 		try {
-				m = (ITranslationUnit)arg0.getUnderlyingObject();
+				m = arg0.getUnderlyingObject();
 				a = m.getAST();
 		} 
 		catch(CoreException e)

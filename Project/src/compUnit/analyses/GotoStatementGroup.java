@@ -15,6 +15,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule14_4
  * Goto statement group
  */
 
@@ -28,7 +29,7 @@ public class GotoStatementGroup implements IRelationBuilder<XCGotoStatement, XCC
 		Group<XCGotoStatement> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		} catch(CoreException e) {
 			e.printStackTrace();
@@ -37,7 +38,7 @@ public class GotoStatementGroup implements IRelationBuilder<XCGotoStatement, XCC
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTStatement c) {
 				if(c instanceof IASTGotoStatement) {
-			        XCGotoStatement p=Factory.getInstance().createXCGotoStatement(c);
+			        XCGotoStatement p=Factory.getInstance().createXCGotoStatement((IASTGotoStatement) c);
 					res.add(p);
 				}
 				return PROCESS_CONTINUE;

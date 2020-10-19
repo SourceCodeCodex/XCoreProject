@@ -12,7 +12,7 @@ public class ToString implements IPropertyComputer<String, XCComment> {
 	@Override
 	public String compute(XCComment arg0) {	
 	
-		IASTComment m = (IASTComment)arg0.getUnderlyingObject();
+		IASTComment m = arg0.getUnderlyingObject();
 	    return m.getRawSignature();
 		
 	}

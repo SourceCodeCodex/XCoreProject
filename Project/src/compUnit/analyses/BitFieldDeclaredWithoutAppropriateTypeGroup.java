@@ -4,6 +4,7 @@ import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTFieldDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -16,6 +17,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule6_4
  * bit-field declared without appropriate type
  */
 
@@ -29,7 +31,7 @@ public class BitFieldDeclaredWithoutAppropriateTypeGroup implements IRelationBui
 		Group<XCDeclaration> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e) 
@@ -49,7 +51,7 @@ public class BitFieldDeclaredWithoutAppropriateTypeGroup implements IRelationBui
 					type = type.trim().replaceAll("[ ]{2,}", " ");
 					if(!type.equals("unsigned int") && !type.equals("signed int"))
 					{
-						XCDeclaration d=Factory.getInstance().createXCDeclaration(p);
+						XCDeclaration d=Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)p);
 						res.add(d);
 					}
 				}

@@ -18,7 +18,9 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-
+/**
+ * Rule15_3
+ */
 
 @RelationBuilder
 public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationBuilder<XCStatement, XCCompUnit>{
@@ -33,7 +35,7 @@ public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationB
 		
 		try 
 		{
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e)

@@ -11,7 +11,7 @@ public class ToString implements IPropertyComputer<String, XCEnumeration> {
 	@Override
 	public String compute(XCEnumeration arg0) {	
 	
-		IASTEnumerationSpecifier m = (IASTEnumerationSpecifier)arg0.getUnderlyingObject();
+		IASTEnumerationSpecifier m = arg0.getUnderlyingObject();
 	    return m.getRawSignature();
 		
 	}

@@ -27,7 +27,7 @@ public class ShowInEditor implements IActionPerformer<Void, XCExpressionList, HL
 		try 
 		{
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IASTExpressionList c = (IASTExpressionList)arg0.getUnderlyingObject();
+			IASTExpressionList c = arg0.getUnderlyingObject();
 			IPath path = new Path(c.getContainingFilename());
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(path);
 			ITextEditor editor = (ITextEditor) IDE.openEditor(page, file);

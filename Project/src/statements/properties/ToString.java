@@ -11,7 +11,7 @@ public class ToString implements IPropertyComputer<String, XCStatement>{
 	@Override
 	public String compute(XCStatement arg0) {
 		
-		IASTStatement c = (IASTStatement)arg0.getUnderlyingObject();	
+		IASTStatement c = arg0.getUnderlyingObject();	
 		return c.getRawSignature();
 		
 	}

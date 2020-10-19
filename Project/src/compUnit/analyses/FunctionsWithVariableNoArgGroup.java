@@ -18,6 +18,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule16_1
  * group of functions with a variable number of arguments
  */
 
@@ -32,7 +33,7 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 		Group<XCFunction> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e)
@@ -49,7 +50,7 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 				IASTNode parent = c.getParent();
 				if(children.length > 1)
 				{
-					XCFunction p = Factory.getInstance().createXCFunction(c);
+					XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
 					String f = p.toString();
 					int index = f.indexOf("...");
 					

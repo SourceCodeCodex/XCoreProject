@@ -13,6 +13,7 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
+ * Rule20_12
  * #include <time.h> group
  */
 
@@ -26,7 +27,7 @@ public class TimeHeaderGroup implements IRelationBuilder<XCIncludeStatement, XCC
 		Group<XCIncludeStatement> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		}
 		catch(CoreException e) 

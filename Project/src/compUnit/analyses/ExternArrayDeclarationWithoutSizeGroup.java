@@ -5,6 +5,7 @@ import org.eclipse.cdt.core.dom.ast.IASTArrayDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTEqualsInitializer;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -16,6 +17,9 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
+/**
+ * Rule8_12
+ */
 
 	@RelationBuilder
 	public class ExternArrayDeclarationWithoutSizeGroup implements IRelationBuilder<XCDeclaration, XCCompUnit>{
@@ -27,7 +31,7 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 			Group<XCDeclaration> res = new Group<>();
 			
 			try {
-				m = (ITranslationUnit)arg0.getUnderlyingObject();
+				m = arg0.getUnderlyingObject();
 				a = m.getAST();
 			}
 			catch(CoreException e) 
@@ -58,7 +62,7 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 							if(children[1].getChildren().length == 0 && ok == 0 )
 							{ 
 							
-								XCDeclaration d=Factory.getInstance().createXCDeclaration(p);
+								XCDeclaration d=Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)p);
 								res.add(d);
 							}
 						}

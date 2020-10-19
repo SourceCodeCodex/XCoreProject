@@ -11,7 +11,7 @@ public class ToString implements IPropertyComputer<String, XCProject>{
 	@Override
 	public String compute(XCProject arg0) {
 		
-		ICProject m = (ICProject)arg0.getUnderlyingObject();
+		ICProject m = arg0.getUnderlyingObject();
 		 return m.getElementName();
 		 
 	}

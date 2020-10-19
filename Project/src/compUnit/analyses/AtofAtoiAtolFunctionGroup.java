@@ -14,7 +14,7 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-/**
+/**Rule20_10
  *  functions atof, atoi and atol from library <stdlib.h> 
  */
 
@@ -28,7 +28,7 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCFunctionCal
 		Group<XCFunctionCallExpression> res = new Group<>();
 		
 		try {
-			m = (ITranslationUnit)arg0.getUnderlyingObject();
+			m = arg0.getUnderlyingObject();
 			a = m.getAST();
 		} catch(CoreException e) {
 			e.printStackTrace();
@@ -46,7 +46,7 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCFunctionCal
 					
 						if(s.equals("atof") || s.equals("atol") || s.equals("atoi") )
 						{
-							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression(c);
+							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression((IASTFunctionCallExpression)c);
 							res.add(expr);
 						}
 					}

@@ -12,7 +12,7 @@ public class ToString implements IPropertyComputer<String, XCFunctionCallExpress
 	@Override
 	public String compute(XCFunctionCallExpression arg0) {	
 	
-		IASTFunctionCallExpression m = (IASTFunctionCallExpression)arg0.getUnderlyingObject();
+		IASTFunctionCallExpression m = arg0.getUnderlyingObject();
 	    return m.getRawSignature();
 		
 	}

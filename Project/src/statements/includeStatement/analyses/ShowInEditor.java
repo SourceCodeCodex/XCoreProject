@@ -29,7 +29,7 @@ public class ShowInEditor implements IActionPerformer<Void, XCIncludeStatement, 
 		try 
 		{
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IASTPreprocessorIncludeStatement c = (IASTPreprocessorIncludeStatement)arg0.getUnderlyingObject();
+			IASTPreprocessorIncludeStatement c = arg0.getUnderlyingObject();
 			IPath path = new Path(c.getContainingFilename());
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(path);
 			ITextEditor editor = (ITextEditor) IDE.openEditor(page, file);
