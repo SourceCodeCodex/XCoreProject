@@ -1,7 +1,6 @@
 package tests;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.cdt.core.dom.ast.IASTNode;
@@ -29,30 +28,30 @@ public class Rule14_4Test extends TestClass{
 	}
 	
 	@Test
-	public void verifyNoOfContinueStmTrue(){
+	public void verifyNoOfGotoStmTrue(){
 		
         int noOfElements = res.getElements().size();
         Assert.assertEquals(noOfElements,2);
 	}
 	
 	@Test
-	public void verifyNoOfContinueStmFalse(){
+	public void verifyNoOfGotoStmFalse(){
         
         int noOfElements = res.getElements().size();
         Assert.assertNotEquals(noOfElements,4);
 	}
 	
 	@Test
-	public void verifyLinesOfContinueStm(){
+	public void verifyLinesOfGotoStm(){
        
 		List<IASTNode> nodes = new ArrayList<IASTNode>();
 		for(XCGotoStatement s: res.getElements()) 
 		{
 			nodes.add(s.getUnderlyingObject());
 		}
-		HashSet<Integer> lines = getLineNoList(nodes);
-        HashSet<Integer> newList = new HashSet<Integer>();
-        newList.add(7);   newList.add(12);  
+		List<Integer> lines = getLineNoList(nodes);
+        List<Integer> newList = new ArrayList<Integer>();
+        newList.add(13);   newList.add(9);  
         Assert.assertEquals(lines,newList);
 	}
 

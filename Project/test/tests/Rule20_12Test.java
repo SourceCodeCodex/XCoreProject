@@ -1,4 +1,5 @@
 package tests;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,15 +9,14 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import project.metamodel.entity.XCContinueStatement;
+import project.metamodel.entity.XCIncludeStatement;
 import project.metamodel.entity.XCProject;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 
-public class Rule14_5Test extends TestClass  {
-
+public class Rule20_12Test extends TestClass {
 	private static XCProject project;
-	private static Group<XCContinueStatement> res;
+	private static Group<XCIncludeStatement> res;
 	
 	@BeforeClass
 	public static void setUpClass() {
@@ -24,34 +24,35 @@ public class Rule14_5Test extends TestClass  {
 		TestUtil.importProject("test","test.zip");
 		ICProject cProject = TestUtil.getProject("test");
 		project = Factory.getInstance().createXCProject(cProject);
-		res = project.rule14_5();
+		res = project.rule20_12();
 	}
 	
 	@Test
-	public void verifyNoOfContinueStmTrue(){
+	public void verifyNoOfIncludeTimeTrue(){
 		
         int noOfElements = res.getElements().size();
-        Assert.assertEquals(noOfElements,3);
+        Assert.assertEquals(noOfElements,4);
 	}
 	
 	@Test
-	public void verifyNoOfContinueStmFalse(){
+	public void verifyNoOfIncludeTimeFalse(){
         
         int noOfElements = res.getElements().size();
-        Assert.assertNotEquals(noOfElements,5);
+        Assert.assertNotEquals(noOfElements,3);
 	}
 	
 	@Test
-	public void verifyLinesOfContinueStm(){
+	public void verifyLinesOfIncludeTime(){
        
 		List<IASTNode> nodes = new ArrayList<IASTNode>();
-		for(XCContinueStatement s: res.getElements()) 
+		for(XCIncludeStatement s: res.getElements()) 
 		{
 			nodes.add(s.getUnderlyingObject());
 		}
 		List<Integer> lines = getLineNoList(nodes);
         List<Integer> newList = new ArrayList<Integer>();
-        newList.add(8);   newList.add(10);  newList.add(12);
+   
+        newList.add(3);   newList.add(2);  newList.add(2); newList.add(1);
         Assert.assertEquals(lines,newList);
 	}
 
