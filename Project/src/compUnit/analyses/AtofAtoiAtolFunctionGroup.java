@@ -8,7 +8,7 @@ import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCFunctionCallExpression;
+import project.metamodel.entity.XCExpression;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -19,13 +19,13 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCFunctionCallExpression, XCCompUnit>{
+public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
-	public Group<XCFunctionCallExpression> buildGroup(XCCompUnit arg0) {
+	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
-		Group<XCFunctionCallExpression> res = new Group<>();
+		Group<XCExpression> res = new Group<>();
 		
 		try {
 			m = arg0.getUnderlyingObject();
@@ -46,8 +46,10 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCFunctionCal
 					
 						if(s.equals("atof") || s.equals("atol") || s.equals("atoi") )
 						{
-							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression((IASTFunctionCallExpression)c);
-							res.add(expr);
+							if(c.isPartOfTranslationUnitFile())
+							{	XCExpression expr = Factory.getInstance().createXCExpression(c);
+								res.add(expr);
+							}
 						}
 					}
 					

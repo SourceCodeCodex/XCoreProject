@@ -47,7 +47,7 @@ public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationB
 	
 			public int visit(IASTStatement c) {
 
-				if(c instanceof  IASTSwitchStatement) 
+				if(c instanceof  IASTSwitchStatement && c.isPartOfTranslationUnitFile()) 
 				{   
 					IASTNode s[] = c.getChildren();
 					IASTCompoundStatement cs = (IASTCompoundStatement) s[1];

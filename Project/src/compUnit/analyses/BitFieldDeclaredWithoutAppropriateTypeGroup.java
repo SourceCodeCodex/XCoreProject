@@ -51,8 +51,11 @@ public class BitFieldDeclaredWithoutAppropriateTypeGroup implements IRelationBui
 					type = type.trim().replaceAll("[ ]{2,}", " ");
 					if(!type.equals("unsigned int") && !type.equals("signed int"))
 					{
-						XCDeclaration d=Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)p);
-						res.add(d);
+						if(c.isPartOfTranslationUnitFile())
+						{
+							XCDeclaration d=Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)p);
+							res.add(d);
+						}
 					}
 				}
 				return PROCESS_CONTINUE;

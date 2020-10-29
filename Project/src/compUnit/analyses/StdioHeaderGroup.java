@@ -46,7 +46,7 @@ public class StdioHeaderGroup implements IRelationBuilder<XCIncludeStatement, XC
 			{
 				s = s.substring(n1,n2);
 			}
-			if(s.equals("stdio.h"))
+			if(s.equals("stdio.h") && i.isPartOfTranslationUnitFile())
 			{ 
 				XCIncludeStatement p = Factory.getInstance().createXCIncludeStatement(i);
 				res.add(p);

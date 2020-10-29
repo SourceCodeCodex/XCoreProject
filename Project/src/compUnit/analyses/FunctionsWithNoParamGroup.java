@@ -50,9 +50,10 @@ public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, X
 					IASTNode children[] = c.getChildren();
 					
 					if(children.length == 1)
-					{  
-						XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
-						res.add(p);
+					{  if(c.isPartOfTranslationUnitFile())
+						{	XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
+							res.add(p);
+						}
 					}
 				}
 				

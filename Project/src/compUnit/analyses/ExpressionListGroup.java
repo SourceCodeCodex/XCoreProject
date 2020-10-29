@@ -1,7 +1,6 @@
 package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
-import org.eclipse.cdt.core.dom.ast.IASTEnumerationSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTExpressionList;
 import org.eclipse.cdt.core.dom.ast.IASTForStatement;
@@ -11,7 +10,7 @@ import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCExpressionList;
+import project.metamodel.entity.XCExpression;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -24,14 +23,14 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class ExpressionListGroup implements IRelationBuilder<XCExpressionList, XCCompUnit>{
+public class ExpressionListGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
-	public Group<XCExpressionList> buildGroup(XCCompUnit arg0) {
+	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
 		
 		IASTTranslationUnit a = null;
 	    ITranslationUnit m = null;
-	    Group<XCExpressionList> res = new Group<>();
+	    Group<XCExpression> res = new Group<>();
 		try {
 			m = arg0.getUnderlyingObject();
 			a = m.getAST();
@@ -43,7 +42,7 @@ public class ExpressionListGroup implements IRelationBuilder<XCExpressionList, X
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
-				if(c instanceof IASTExpressionList)
+				if(c instanceof IASTExpressionList && c.isPartOfTranslationUnitFile())
 				{   
 					int ok = 1;
 					IASTNode p1 = c.getParent();
@@ -64,7 +63,7 @@ public class ExpressionListGroup implements IRelationBuilder<XCExpressionList, X
 					 ok = 0;
 					if(ok == 0) 
 					{
-						XCExpressionList expr = Factory.getInstance().createXCExpressionList((IASTExpressionList)c);
+						XCExpression expr = Factory.getInstance().createXCExpression(c);
 						res.add(expr);
 					}
 				

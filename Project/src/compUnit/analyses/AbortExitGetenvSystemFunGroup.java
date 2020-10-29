@@ -8,7 +8,7 @@ import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCFunctionCallExpression;
+import project.metamodel.entity.XCExpression;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -20,13 +20,13 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCFunctionCallExpression, XCCompUnit>{
+public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
-	public Group<XCFunctionCallExpression> buildGroup(XCCompUnit arg0) {
+	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
-		Group<XCFunctionCallExpression> res = new Group<>();
+		Group<XCExpression> res = new Group<>();
 		
 		try {
 			m = arg0.getUnderlyingObject();
@@ -45,9 +45,12 @@ public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCFunctio
 					{	s = s.substring(0, n);
 					
 						if(s.equals("abort") || s.equals("exit") || s.equals("getenv") || s.equals("system"))
-						{
-							XCFunctionCallExpression expr = Factory.getInstance().createXCFunctionCallExpression((IASTFunctionCallExpression)c);
-							res.add(expr);
+						{ 
+							if(c.isPartOfTranslationUnitFile()) 
+						   {
+								XCExpression expr = Factory.getInstance().createXCExpression(c);
+								res.add(expr);
+						   }
 						}
 					}
 					

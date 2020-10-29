@@ -60,7 +60,7 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 							ok = 1; break;
 						}
 					}
-					if(ok == 0)
+					if(ok == 0 && c.isPartOfTranslationUnitFile())
 					{	XCStatement p = Factory.getInstance().createXCStatement(c);
 						res.add(p);
 					}
@@ -70,7 +70,7 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 				{   IASTNode child = c.getChildren()[1];
 					String s = child.getRawSignature();
 					
-					if(s.charAt(0) != '{' )
+					if(s.charAt(0) != '{' && c.isPartOfTranslationUnitFile())
 					{
 						XCStatement p = Factory.getInstance().createXCStatement(c);
 						res.add(p);

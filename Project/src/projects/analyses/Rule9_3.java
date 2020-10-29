@@ -1,8 +1,8 @@
 package projects.analyses;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCEnumeration;
 import project.metamodel.entity.XCProject;
+import project.metamodel.entity.XCSpecifier;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
@@ -13,20 +13,20 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class Rule9_3 implements IRelationBuilder<XCEnumeration,XCProject>{
+public class Rule9_3 implements IRelationBuilder<XCSpecifier,XCProject>{
 	
 	@Override
-	public Group<XCEnumeration> buildGroup(XCProject arg0) {
+	public Group<XCSpecifier> buildGroup(XCProject arg0) {
 		
 		Group<XCCompUnit> compU = new Group<>();
-		Group<XCEnumeration> enumeration = new Group<>();
-		Group<XCEnumeration> e = new Group<>();
+		Group<XCSpecifier> enumeration = new Group<>();
+		Group<XCSpecifier> e = new Group<>();
 	
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements()) 
 		{
 			e = cu.enumerationWithIrregularInitializationGroup();
-			for(XCEnumeration cs:e.getElements())
+			for(XCSpecifier cs:e.getElements())
 			{
 				enumeration.add(cs);
 			}

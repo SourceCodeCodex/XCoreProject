@@ -45,7 +45,7 @@ public class SignalHeaderGroup implements IRelationBuilder<XCIncludeStatement, X
 			{
 				s = s.substring(n1,n2);
 			}
-			if(s.equals("signal.h"))
+			if(s.equals("signal.h") && i.isPartOfTranslationUnitFile())
 			{ 
 				XCIncludeStatement p = Factory.getInstance().createXCIncludeStatement(i);
 				res.add(p);

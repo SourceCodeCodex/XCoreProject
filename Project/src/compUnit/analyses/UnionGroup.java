@@ -8,7 +8,7 @@ import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCUnion;
+import project.metamodel.entity.XCSpecifier;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -20,13 +20,13 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class UnionGroup implements IRelationBuilder<XCUnion, XCCompUnit>{
+public class UnionGroup implements IRelationBuilder<XCSpecifier, XCCompUnit>{
 	
 	@Override
-	public Group<XCUnion> buildGroup(XCCompUnit arg0) {
+	public Group<XCSpecifier> buildGroup(XCCompUnit arg0) {
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
-		Group<XCUnion> res = new Group<>();
+		Group<XCSpecifier> res = new Group<>();
 		
 		try {
 			m = arg0.getUnderlyingObject();
@@ -39,11 +39,11 @@ public class UnionGroup implements IRelationBuilder<XCUnion, XCCompUnit>{
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTDeclSpecifier c) {
-				if(c instanceof IASTCompositeTypeSpecifier) 
+				if(c instanceof IASTCompositeTypeSpecifier && c.isPartOfTranslationUnitFile()) 
 				{
 					if(((IASTCompositeTypeSpecifier) c).getKey( )== 2)
 					{
-						XCUnion u = Factory.getInstance().createXCUnion((IASTCompositeTypeSpecifier) c);
+						XCSpecifier u = Factory.getInstance().createXCSpecifier(c);
 						res.add(u);
 					}
 				}

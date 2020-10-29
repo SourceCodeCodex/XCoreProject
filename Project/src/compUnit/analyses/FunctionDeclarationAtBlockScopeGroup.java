@@ -44,7 +44,7 @@ public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XC
 	
 			public int visit(IASTDeclarator c) {
        
-				if(c instanceof  IASTFunctionDeclarator) {
+				if(c instanceof  IASTFunctionDeclarator && c.isPartOfTranslationUnitFile()) {
 				IASTNode p1 = c.getParent();
 				IASTNode p2 = p1.getParent();
 				if(p1 instanceof IASTSimpleDeclaration && p2 instanceof IASTDeclarationStatement)

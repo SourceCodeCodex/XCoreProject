@@ -8,9 +8,8 @@ import org.eclipse.cdt.core.dom.ast.IASTUnaryExpression;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
-
-import project.metamodel.entity.XCBinaryExpression;
 import project.metamodel.entity.XCCompUnit;
+import project.metamodel.entity.XCExpression;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -23,14 +22,14 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class BinaryExpressionWithIncrAndDecrOperatorsGroup implements IRelationBuilder<XCBinaryExpression, XCCompUnit>{
+public class BinaryExpressionWithIncrAndDecrOperatorsGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
-	public Group<XCBinaryExpression> buildGroup(XCCompUnit arg0) {
+	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
 		
 		IASTTranslationUnit a = null;
 	    ITranslationUnit m = null;
-	    Group<XCBinaryExpression> res = new Group<>();
+	    Group<XCExpression> res = new Group<>();
 		try {
 			m = arg0.getUnderlyingObject();
 			a = m.getAST();
@@ -59,9 +58,10 @@ public class BinaryExpressionWithIncrAndDecrOperatorsGroup implements IRelationB
                      	 minus = IASTBinaryExpression.op_minus;
                      	 multiply = IASTBinaryExpression.op_multiply;
                          if(op >= multiply && op<= minus) 
-                         {	
-                        	XCBinaryExpression expr = Factory.getInstance().createXCBinaryExpression((IASTBinaryExpression)parent);
- 							res.add(expr);
+                         {	if(c.isPartOfTranslationUnitFile())
+                        	{	XCExpression expr = Factory.getInstance().createXCExpression((IASTExpression) parent);
+ 								res.add(expr);
+                        	}
        				     }
                     	 
                      }

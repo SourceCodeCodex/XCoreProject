@@ -43,7 +43,7 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 				
 				public int visit(IASTDeclarator c) {
 					
-					if(c instanceof IASTArrayDeclarator) 
+					if(c instanceof IASTArrayDeclarator && c.isPartOfTranslationUnitFile()) 
 					{
 						IASTNode p,b;
 						int ok = 0;

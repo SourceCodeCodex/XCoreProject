@@ -8,7 +8,7 @@ import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCContinueStatement;
+import project.metamodel.entity.XCStatement;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -20,13 +20,13 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class ContinueStatementGroup implements IRelationBuilder<XCContinueStatement, XCCompUnit>{
+public class ContinueStatementGroup implements IRelationBuilder<XCStatement, XCCompUnit>{
 	
 	@Override
-	public Group<XCContinueStatement> buildGroup(XCCompUnit arg0) {
+	public Group<XCStatement> buildGroup(XCCompUnit arg0) {
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
-		Group<XCContinueStatement> res = new Group<>();
+		Group<XCStatement> res = new Group<>();
 		
 		try {
 			m = arg0.getUnderlyingObject();
@@ -38,8 +38,11 @@ public class ContinueStatementGroup implements IRelationBuilder<XCContinueStatem
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTStatement c) {
 				if(c instanceof IASTContinueStatement) {
-					XCContinueStatement p=Factory.getInstance().createXCContinueStatement((IASTContinueStatement)c);
-					res.add(p);
+					if(c.isPartOfTranslationUnitFile())
+					{
+						XCStatement p=Factory.getInstance().createXCStatement(c);
+						res.add(p);
+					}
 				}
 				return PROCESS_CONTINUE;
 			}

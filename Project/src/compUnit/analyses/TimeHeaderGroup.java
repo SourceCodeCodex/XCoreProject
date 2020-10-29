@@ -45,7 +45,7 @@ public class TimeHeaderGroup implements IRelationBuilder<XCIncludeStatement, XCC
 			{
 				s = s.substring(n1,n2);
 			}
-			if(s.equals("time.h"))
+			if(s.equals("time.h") && i.isPartOfTranslationUnitFile())
 			{ 
 				XCIncludeStatement p = Factory.getInstance().createXCIncludeStatement(i);
 				res.add(p);

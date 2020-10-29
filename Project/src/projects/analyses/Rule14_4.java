@@ -1,8 +1,8 @@
 package projects.analyses;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCGotoStatement;
 import project.metamodel.entity.XCProject;
+import project.metamodel.entity.XCStatement;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
@@ -12,19 +12,19 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class Rule14_4 implements IRelationBuilder<XCGotoStatement,XCProject>{
+public class Rule14_4 implements IRelationBuilder<XCStatement,XCProject>{
 	
 	@Override
-	public Group<XCGotoStatement> buildGroup(XCProject arg0) {
+	public Group<XCStatement> buildGroup(XCProject arg0) {
   
 		Group<XCCompUnit> compU = new Group<>();
-		Group<XCGotoStatement> gotoS = new Group<>();
-		Group<XCGotoStatement> gtS = new Group<>();
+		Group<XCStatement> gotoS = new Group<>();
+		Group<XCStatement> gtS = new Group<>();
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements())
 		{
 			gtS = cu.gotoStatementGroup();
-	        for(XCGotoStatement cs:gtS.getElements()) 
+	        for(XCStatement cs:gtS.getElements()) 
 	        {
 				gotoS.add(cs);
 	        }

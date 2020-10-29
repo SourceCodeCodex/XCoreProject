@@ -8,7 +8,7 @@ import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCGotoStatement;
+import project.metamodel.entity.XCStatement;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -20,13 +20,13 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class GotoStatementGroup implements IRelationBuilder<XCGotoStatement, XCCompUnit>{
+public class GotoStatementGroup implements IRelationBuilder<XCStatement, XCCompUnit>{
 	
 	@Override
-	public Group<XCGotoStatement> buildGroup(XCCompUnit arg0) {
+	public Group<XCStatement> buildGroup(XCCompUnit arg0) {
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
-		Group<XCGotoStatement> res = new Group<>();
+		Group<XCStatement> res = new Group<>();
 		
 		try {
 			m = arg0.getUnderlyingObject();
@@ -37,8 +37,8 @@ public class GotoStatementGroup implements IRelationBuilder<XCGotoStatement, XCC
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTStatement c) {
-				if(c instanceof IASTGotoStatement) {
-			        XCGotoStatement p=Factory.getInstance().createXCGotoStatement((IASTGotoStatement) c);
+				if(c instanceof IASTGotoStatement && c.isPartOfTranslationUnitFile()) {
+			        XCStatement p=Factory.getInstance().createXCStatement(c);
 					res.add(p);
 				}
 				return PROCESS_CONTINUE;

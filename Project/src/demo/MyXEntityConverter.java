@@ -1,20 +1,13 @@
 package demo;
 
-import org.eclipse.cdt.core.dom.ast.IASTBinaryExpression;
 import org.eclipse.cdt.core.dom.ast.IASTComment;
-import org.eclipse.cdt.core.dom.ast.IASTCompositeTypeSpecifier;
-import org.eclipse.cdt.core.dom.ast.IASTContinueStatement;
-import org.eclipse.cdt.core.dom.ast.IASTEnumerationSpecifier;
-import org.eclipse.cdt.core.dom.ast.IASTExpressionList;
-import org.eclipse.cdt.core.dom.ast.IASTFunctionCallExpression;
+import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
+import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
-import org.eclipse.cdt.core.dom.ast.IASTGotoStatement;
 import org.eclipse.cdt.core.dom.ast.IASTPreprocessorIncludeStatement;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
-import org.eclipse.cdt.core.dom.ast.IASTUnaryExpression;
 import org.eclipse.cdt.core.model.ICProject;
-import org.eclipse.cdt.core.model.ISourceRoot;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 
 import project.metamodel.factory.Factory;
@@ -30,26 +23,14 @@ public class MyXEntityConverter implements XEntityConverter {
 			return Factory.getInstance().createXCProject((ICProject)element);
 		else if(element instanceof ITranslationUnit)
 			return Factory.getInstance().createXCCompUnit((ITranslationUnit)element);
-		else if(element instanceof IASTCompositeTypeSpecifier)
-			return Factory.getInstance().createXCUnion((IASTCompositeTypeSpecifier)element);
-		else if(element instanceof IASTEnumerationSpecifier)
-			return Factory.getInstance().createXCEnumeration((IASTEnumerationSpecifier)element);
-		else if(element instanceof IASTContinueStatement)
-			return Factory.getInstance().createXCContinueStatement((IASTContinueStatement)element);
-		else if(element instanceof IASTGotoStatement)
-			return Factory.getInstance().createXCGotoStatement((IASTGotoStatement)element);
+		else if(element instanceof IASTDeclSpecifier)
+			return Factory.getInstance().createXCSpecifier((IASTDeclSpecifier) element);
+		else if(element instanceof IASTStatement)
+			return Factory.getInstance().createXCStatement((IASTStatement) element);
 		else if(element instanceof IASTPreprocessorIncludeStatement)
 			return Factory.getInstance().createXCIncludeStatement((IASTPreprocessorIncludeStatement)element);
-		else if(element instanceof IASTStatement)
-			return Factory.getInstance().createXCStatement((IASTStatement)element);
-		else if(element instanceof IASTExpressionList)
-			return Factory.getInstance().createXCExpressionList((IASTExpressionList)element);
-		else if(element instanceof IASTFunctionCallExpression)
-			return Factory.getInstance().createXCFunctionCallExpression((IASTFunctionCallExpression)element);
-		else if(element instanceof IASTBinaryExpression)
-			return Factory.getInstance().createXCBinaryExpression((IASTBinaryExpression)element);
-		else if(element instanceof IASTUnaryExpression)
-			return Factory.getInstance().createXCUnaryExpression((IASTUnaryExpression)element);
+		else if(element instanceof IASTExpression)
+			return Factory.getInstance().createXCExpression((IASTExpression)element);
 		else if(element instanceof IASTComment)
 			return Factory.getInstance().createXCComment((IASTComment)element);
 		else if(element instanceof IASTFunctionDeclarator)

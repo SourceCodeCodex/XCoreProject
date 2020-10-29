@@ -40,9 +40,9 @@ public class CompUnitGroup implements IRelationBuilder<XCCompUnit, XCProject>{
 		for(ICElement a:all) 
 		{
 			if(a instanceof ITranslationUnit)
-			{
+			{ if(((ITranslationUnit) a).isCLanguage()) {
 				XCCompUnit c = Factory.getInstance().createXCCompUnit((ITranslationUnit)a);
-				res.add(c);
+				res.add(c);}
 			}
 			else
 			{

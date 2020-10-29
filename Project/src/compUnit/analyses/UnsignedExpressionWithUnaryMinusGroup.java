@@ -8,7 +8,7 @@ import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCUnaryExpression;
+import project.metamodel.entity.XCExpression;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -21,15 +21,14 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class UnsignedExpressionWithUnaryMinusGroup implements IRelationBuilder<XCUnaryExpression, XCCompUnit>{
+public class UnsignedExpressionWithUnaryMinusGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
-	public Group<XCUnaryExpression> buildGroup(XCCompUnit arg0) {
+	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
 		
 		IASTTranslationUnit a = null;
 	    ITranslationUnit m = null;
-	    Group<XCUnaryExpression> res = new Group<>();
-	    String s=null;
+	    Group<XCExpression> res = new Group<>();
 		try {
 			m = arg0.getUnderlyingObject();
 			a = m.getAST();
@@ -41,10 +40,12 @@ public class UnsignedExpressionWithUnaryMinusGroup implements IRelationBuilder<X
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
-				if(c instanceof IASTUnaryExpression)
-				{   int op = ((IASTUnaryExpression) c).getOperator();
+				if(c instanceof IASTUnaryExpression && c.isPartOfTranslationUnitFile())
+				{   
+					int op = ((IASTUnaryExpression) c).getOperator();
+					
 			         if((c.getExpressionType()).toString().indexOf("unsigned")!=-1 && op == IASTUnaryExpression.op_minus )
-			         {	XCUnaryExpression expr = Factory.getInstance().createXCUnaryExpression((IASTUnaryExpression) c);
+			         {	XCExpression expr = Factory.getInstance().createXCExpression(c);
 						res.add(expr);
 			         }
 				

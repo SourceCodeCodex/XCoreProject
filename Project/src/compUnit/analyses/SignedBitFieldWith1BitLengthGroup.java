@@ -43,7 +43,7 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 			
 			public int visit(IASTDeclarator c) {
 				
-				if(c instanceof IASTFieldDeclarator) {
+				if(c instanceof IASTFieldDeclarator && c.isPartOfTranslationUnitFile()) {
 					IASTNode children[],p,f;
 					children = c.getChildren();
 					if( children[1].getRawSignature().equals("1") && !children[0].getRawSignature().equals("") )

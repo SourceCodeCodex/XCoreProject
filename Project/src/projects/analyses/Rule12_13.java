@@ -1,7 +1,7 @@
 package projects.analyses;
 
-import project.metamodel.entity.XCBinaryExpression;
 import project.metamodel.entity.XCCompUnit;
+import project.metamodel.entity.XCExpression;
 import project.metamodel.entity.XCProject;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -13,19 +13,19 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class Rule12_13 implements IRelationBuilder<XCBinaryExpression,XCProject>{
+public class Rule12_13 implements IRelationBuilder<XCExpression,XCProject>{
 	
 	@Override
-	public Group<XCBinaryExpression> buildGroup(XCProject arg0) {
+	public Group<XCExpression> buildGroup(XCProject arg0) {
   
 		Group<XCCompUnit> compU = new Group<>();
-		Group<XCBinaryExpression> exprB = new Group<>();
-		Group<XCBinaryExpression> exp = new Group<>();
+		Group<XCExpression> exprB = new Group<>();
+		Group<XCExpression> exp = new Group<>();
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements())
 		{
 			exp = cu.binaryExpressionWithIncrAndDecrOperatorsGroup();
-	        for(XCBinaryExpression cs : exp.getElements()) 
+	        for(XCExpression cs : exp.getElements()) 
 	        {
 				exprB.add(cs);
 	        }

@@ -55,7 +55,9 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 					int index = f.indexOf("...");
 					
 					if(index>0 && index<f.length()-1 && !(parent instanceof IASTSimpleDeclaration))
-						res.add(p);
+				    {	if(c.isPartOfTranslationUnitFile())
+						  res.add(p);
+				    }
 						
 				 }
 				}

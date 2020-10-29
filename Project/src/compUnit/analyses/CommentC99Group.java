@@ -41,8 +41,11 @@ public class CommentC99Group implements IRelationBuilder<XCComment, XCCompUnit>{
 				String s = c.toString();
 				if(s.charAt(0) == s.charAt(1) && s.charAt(1) == '/')
 				{
-					XCComment comment = Factory.getInstance().createXCComment(c);
-					res.add(comment);
+					if(c.isPartOfTranslationUnitFile())
+					{
+						XCComment comment = Factory.getInstance().createXCComment(c);
+						res.add(comment);
+					}
 				}
 		}
 		

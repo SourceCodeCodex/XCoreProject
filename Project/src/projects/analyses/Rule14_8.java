@@ -1,7 +1,6 @@
 package projects.analyses;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCContinueStatement;
 import project.metamodel.entity.XCProject;
 import project.metamodel.entity.XCStatement;
 import ro.lrg.xcore.metametamodel.Group;

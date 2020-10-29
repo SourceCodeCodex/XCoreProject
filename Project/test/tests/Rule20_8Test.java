@@ -1,9 +1,6 @@
 package tests;
+import java.util.HashSet;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.model.ICProject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -21,39 +18,33 @@ public class Rule20_8Test extends TestClass {
 	@BeforeClass
 	public static void setUpClass() {
 		
-		TestUtil.importProject("test","test.zip");
-		ICProject cProject = TestUtil.getProject("test");
+		TestUtil.importProject("test0","test0.zip");
+		ICProject cProject = TestUtil.getProject("test0");
 		project = Factory.getInstance().createXCProject(cProject);
 		res = project.rule20_8();
 	}
 	
 	@Test
-	public void verifyNoOfIncludeSignalTrue(){
+	public void verifyNoOfIncludeSignal(){
 		
         int noOfElements = res.getElements().size();
         Assert.assertEquals(noOfElements,2);
 	}
 	
-	@Test
-	public void verifyNoOfIncludeSignalFalse(){
-        
-        int noOfElements = res.getElements().size();
-        Assert.assertNotEquals(noOfElements,7);
-	}
 	
 	@Test
-	public void verifyLinesOfIncludeSignal(){
-       
-		List<IASTNode> nodes = new ArrayList<IASTNode>();
+	public void verifyLinesAndFileNameOfIncludeSignal(){
+		HashSet<String> fileLine = new HashSet<String>(); 
 		for(XCIncludeStatement s: res.getElements()) 
-		{
-			nodes.add(s.getUnderlyingObject());
+		{   
+			fileLine.add(s.fileName()+s.lineNumber());
 		}
-		List<Integer> lines = getLineNoList(nodes);
-        List<Integer> newList = new ArrayList<Integer>();
-  
-        newList.add(2);   newList.add(2);
-        Assert.assertEquals(lines,newList);
+		
+		HashSet<String> newSet = new HashSet<String>();
+		newSet.add("prog4.c2");  
+	    newSet.add("prog3.c2"); 
+        Assert.assertEquals(fileLine,newSet);
+		
 	}
 
 }

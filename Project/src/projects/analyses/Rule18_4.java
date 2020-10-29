@@ -2,7 +2,7 @@ package projects.analyses;
 
 import project.metamodel.entity.XCCompUnit;
 import project.metamodel.entity.XCProject;
-import project.metamodel.entity.XCUnion;
+import project.metamodel.entity.XCSpecifier;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
@@ -13,19 +13,19 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 
 @RelationBuilder
-public class Rule18_4 implements IRelationBuilder<XCUnion,XCProject>{
+public class Rule18_4 implements IRelationBuilder<XCSpecifier,XCProject>{
 	
 	@Override
-	public Group<XCUnion> buildGroup(XCProject arg0) {
+	public Group<XCSpecifier> buildGroup(XCProject arg0) {
 
 		Group<XCCompUnit> compU = new Group<>();
-		Group<XCUnion> unions = new Group<>();
-		Group<XCUnion> u = new Group<>();
+		Group<XCSpecifier> unions = new Group<>();
+		Group<XCSpecifier> u = new Group<>();
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements())
 		{
 			u = cu.unionGroup();
-	        for(XCUnion cs: u.getElements()) 
+	        for(XCSpecifier cs: u.getElements()) 
 	        {
 				unions.add(cs);
 	        }
