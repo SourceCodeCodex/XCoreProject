@@ -2,10 +2,10 @@ package demo;
 
 import org.eclipse.cdt.core.dom.ast.IASTComment;
 import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
+import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTPreprocessorIncludeStatement;
-import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
 import org.eclipse.cdt.core.model.ICProject;
 import org.eclipse.cdt.core.model.ITranslationUnit;
@@ -35,8 +35,8 @@ public class MyXEntityConverter implements XEntityConverter {
 			return Factory.getInstance().createXCComment((IASTComment)element);
 		else if(element instanceof IASTFunctionDeclarator)
 			return Factory.getInstance().createXCFunction((IASTFunctionDeclarator)element);
-		else if(element instanceof IASTSimpleDeclaration)
-			return Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)element);
+		else if(element instanceof IASTDeclarator)
+			return Factory.getInstance().createXCDeclaration((IASTDeclarator)element);
 		return null;
 		
 	}

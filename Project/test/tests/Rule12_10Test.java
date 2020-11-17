@@ -1,6 +1,9 @@
 package tests;
 
+import java.util.HashSet;
+
 import org.eclipse.cdt.core.model.ICProject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,8 +19,6 @@ public class Rule12_10Test {
 	
 	@BeforeClass
 	public static void setUpClass() {
-		
-		TestUtil.importProject("test1","test1.zip");
 		ICProject cProject = TestUtil.getProject("test1");
 		project = Factory.getInstance().createXCProject(cProject);
 		res = project.rule12_10();
@@ -33,8 +34,15 @@ public class Rule12_10Test {
 	
 	@Test
 	public void verifyLinesAndFileNameOfExpressionList(){
-		    XCExpression e = res.getElements().get(0);
-		    String s =e.fileName()+e.lineNumber();
-		    Assert.assertEquals(s,"function2.c26");
+		HashSet<String> fileLine = new HashSet<String>(); 
+		for(XCExpression s: res.getElements()) 
+		{   
+			fileLine.add(s.fileName()+s.lineNumber());
+		}
+		
+		HashSet<String> newSet = new HashSet<String>();
+		newSet.add("function2.c26"); 
+        Assert.assertEquals(fileLine,newSet);
 	}
+
 }

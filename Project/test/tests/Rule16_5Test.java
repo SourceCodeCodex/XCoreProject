@@ -3,6 +3,7 @@ package tests;
 import java.util.HashSet;
 
 import org.eclipse.cdt.core.model.ICProject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,8 +19,6 @@ public class Rule16_5Test {
 	
 	@BeforeClass
 	public static void setUpClass() {
-		
-		TestUtil.importProject("test1","test1.zip");
 		ICProject cProject = TestUtil.getProject("test1");
 		project = Factory.getInstance().createXCProject(cProject);
 		res = project.rule16_5();
@@ -37,7 +36,7 @@ public class Rule16_5Test {
 	public void verifyLinesAndFileNameOfFunctionWithNoParam(){
 		 HashSet<String> fileLine = new HashSet<String>(); 
 			for(XCFunction s: res.getElements()) 
-			{  System.out.println(s.fileName()+s.lineNumber());
+			{  
 				fileLine.add(s.fileName()+s.lineNumber());
 			}
 			HashSet<String> newSet = new HashSet<String>();

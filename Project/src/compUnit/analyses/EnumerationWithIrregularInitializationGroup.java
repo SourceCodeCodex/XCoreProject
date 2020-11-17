@@ -3,7 +3,7 @@ package compUnit.analyses;
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTEnumerationSpecifier;
-import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -41,30 +41,29 @@ public class EnumerationWithIrregularInitializationGroup implements IRelationBui
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTDeclSpecifier c) {
 				if(c instanceof IASTEnumerationSpecifier && c.isPartOfTranslationUnitFile())
-				{
-					IASTNode children[] = c.getChildren();
-					int k1 = 0, k2 = 0;
-					if(children[1].getChildren().length == 2)
-					{
-						k1=1;
-					}
-				
-					for(int i=2; i<children.length; i++)
-					{
-						if(children[i].getChildren().length >= 2)
-							{
-							k2++;
-							}
+				{   int k1 = 0, k2 = 0;
+					IASTEnumerationSpecifier.IASTEnumerator[] enumerators = ((IASTEnumerationSpecifier) c).getEnumerators();
 					
+					if(enumerators[0].getValue() != null)
+					{
+					   k1 = 1;	
 					}
-				
+					for(int i=1; i<enumerators.length; i++)
+					{
+						IASTExpression e = enumerators[i].getValue();
+						if(e != null)
+						{
+							k2++;
+						}
+					}
+						
 					if(k1 == 0 && k2 != 0)
 					{
 						XCSpecifier e = Factory.getInstance().createXCSpecifier(c);
 						res.add(e);
 					}
 					else
-					if(k1 == 1 && (k2 != children.length-2 && k2!=0))
+					if(k1 == 1 && (k2 != enumerators.length-1 && k2 != 0))
 					{	
 						 XCSpecifier e = Factory.getInstance().createXCSpecifier(c);
 						 res.add(e);

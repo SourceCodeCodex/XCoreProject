@@ -34,22 +34,20 @@ public class StdioHeaderGroup implements IRelationBuilder<XCIncludeStatement, XC
 		catch(CoreException e) 
 		{
 			e.printStackTrace();
-		}
+		}		
 		
 		IASTPreprocessorIncludeStatement[] includes = a.getIncludeDirectives();
 		for(IASTPreprocessorIncludeStatement i:includes)
 		{
-			String s = i.getRawSignature();
-			int n1 = s.indexOf('<')+1;
-			int n2 = s.indexOf('>');
-			if(n1 > 0 && n2 > 0)
+			if(i.isPartOfTranslationUnitFile())
 			{
-				s = s.substring(n1,n2);
-			}
-			if(s.equals("stdio.h") && i.isPartOfTranslationUnitFile())
-			{ 
-				XCIncludeStatement p = Factory.getInstance().createXCIncludeStatement(i);
-				res.add(p);
+				String name = i.getName().getRawSignature();
+				
+			    if(name.equals("stdio.h"))
+			   { 
+			    	XCIncludeStatement p = Factory.getInstance().createXCIncludeStatement(i);
+			    	res.add(p);
+			   }
 			}
 		}
 		

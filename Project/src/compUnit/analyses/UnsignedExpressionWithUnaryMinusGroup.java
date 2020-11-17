@@ -3,6 +3,8 @@ package compUnit.analyses;
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTUnaryExpression;
+import org.eclipse.cdt.core.dom.ast.IBasicType;
+import org.eclipse.cdt.core.dom.ast.IType;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -42,9 +44,9 @@ public class UnsignedExpressionWithUnaryMinusGroup implements IRelationBuilder<X
 			public int visit(IASTExpression c) {
 				if(c instanceof IASTUnaryExpression && c.isPartOfTranslationUnitFile())
 				{   
-					int op = ((IASTUnaryExpression) c).getOperator();
-					
-			         if((c.getExpressionType()).toString().indexOf("unsigned")!=-1 && op == IASTUnaryExpression.op_minus )
+				     int op = ((IASTUnaryExpression) c).getOperator();
+				     String type = c.getExpressionType().toString();
+			         if(type.indexOf("unsigned") !=-1 && op == IASTUnaryExpression.op_minus )
 			         {	XCExpression expr = Factory.getInstance().createXCExpression(c);
 						res.add(expr);
 			         }

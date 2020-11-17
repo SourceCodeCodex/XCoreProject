@@ -21,7 +21,6 @@ import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 
 public class TestUtil {
 	
-    //fileName - numele proiectului zip
 	public static void importProject(String projectName, String fileName) {
 		
 		try {

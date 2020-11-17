@@ -10,6 +10,7 @@ import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
+
 import project.metamodel.entity.XCCompUnit;
 import project.metamodel.entity.XCFunction;
 import project.metamodel.factory.Factory;
@@ -45,14 +46,14 @@ public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XC
 			public int visit(IASTDeclarator c) {
        
 				if(c instanceof  IASTFunctionDeclarator && c.isPartOfTranslationUnitFile()) {
-				IASTNode p1 = c.getParent();
-				IASTNode p2 = p1.getParent();
-				if(p1 instanceof IASTSimpleDeclaration && p2 instanceof IASTDeclarationStatement)
-				{
-					XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator)c);
-					res.add(p);
-						
-				 }
+				    IASTNode p1 = c.getParent();
+					IASTNode p2 = p1.getParent();
+					if(p1 instanceof IASTSimpleDeclaration && p2 instanceof IASTDeclarationStatement)
+					{
+						XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator)c);
+						res.add(p);
+							
+					 }
 				}
 				
 		

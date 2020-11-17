@@ -1,9 +1,11 @@
 package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
+import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTFieldDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
@@ -43,18 +45,33 @@ public class BitFieldDeclaredWithoutAppropriateTypeGroup implements IRelationBui
 			
 			public int visit(IASTDeclarator c) {
 				
-				if(c instanceof IASTFieldDeclarator) {
-					IASTNode p,f;
-					p = c.getParent();
-					f = p.getChildren()[0];
-					String type = f.getRawSignature();
-					type = type.trim().replaceAll("[ ]{2,}", " ");
-					if(!type.equals("unsigned int") && !type.equals("signed int"))
-					{
-						if(c.isPartOfTranslationUnitFile())
+				if(c instanceof IASTFieldDeclarator && c.isPartOfTranslationUnitFile() )
+				{
+					IASTNode p = c.getParent();
+					IASTSimpleDeclSpecifier f = null;
+					int us = 0,ok = 0;
+					if(p instanceof IASTSimpleDeclaration) {
+						
+						IASTDeclSpecifier decl = ((IASTSimpleDeclaration) p).getDeclSpecifier();
+						if(decl instanceof IASTSimpleDeclSpecifier)
 						{
-							XCDeclaration d=Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)p);
-							res.add(d);
+							f = (IASTSimpleDeclSpecifier)decl;
+					
+							if(f.isSigned() || f.isUnsigned())
+							{
+								us = 1;
+							}
+							int type = f.getType();
+							if(type == IASTSimpleDeclSpecifier.t_int || type == IASTSimpleDeclSpecifier.t_unspecified)
+							{
+								ok = 1;
+							}
+					
+							if(us==0 || ok==0)
+							{
+								XCDeclaration d=Factory.getInstance().createXCDeclaration(c);
+								res.add(d);
+							}
 						}
 					}
 				}

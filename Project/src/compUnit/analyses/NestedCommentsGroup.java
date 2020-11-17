@@ -41,14 +41,17 @@ public class NestedCommentsGroup implements IRelationBuilder<XCComment, XCCompUn
 		for(IASTComment c:comm) 
 		{
 				String s = c.toString();
-				if(s.charAt(0) == '/' && s.charAt(1) == '*')
+				if(s.length() >= 2)
 				{
-					if(s.lastIndexOf("/*") != 0 && c.isPartOfTranslationUnitFile())
-					{
-						XCComment comment = Factory.getInstance().createXCComment(c);
-						res.add(comment);
-				    }
-			     }
+					if(s.charAt(0) == '/' && s.charAt(1) == '*')
+					{  int index = s.lastIndexOf("/*");
+						if(index != 0 && index != (s.length()-3) && c.isPartOfTranslationUnitFile())
+						{
+							XCComment comment = Factory.getInstance().createXCComment(c);
+							res.add(comment);
+						}
+					}
+				}
 		}
 		
 		return res;

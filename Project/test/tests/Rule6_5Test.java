@@ -1,6 +1,7 @@
 package tests;
 
 import org.eclipse.cdt.core.model.ICProject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,8 +18,6 @@ public class Rule6_5Test {
 	
 	@BeforeClass
 	public static void setUpClass() {
-		
-		TestUtil.importProject("test1","test1.zip");
 		ICProject cProject = TestUtil.getProject("test1");
 		project = Factory.getInstance().createXCProject(cProject);
 		res = project.rule6_5();
@@ -38,6 +37,5 @@ public class Rule6_5Test {
 		    String s = d.fileName()+d.lineNumber();
 	        Assert.assertEquals(s,"function2.c9");
 	}
-	
 
 }

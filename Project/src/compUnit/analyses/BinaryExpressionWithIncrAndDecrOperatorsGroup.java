@@ -41,7 +41,8 @@ public class BinaryExpressionWithIncrAndDecrOperatorsGroup implements IRelationB
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
-				if(c instanceof IASTUnaryExpression)
+				
+				if(c instanceof IASTUnaryExpression && c.isPartOfTranslationUnitFile())
 				{ int op,poD,poI,prD,prI;
 				  op = ((IASTUnaryExpression) c).getOperator();
 			
@@ -49,19 +50,21 @@ public class BinaryExpressionWithIncrAndDecrOperatorsGroup implements IRelationB
 				  prD = IASTUnaryExpression.op_prefixDecr;
 				  poI = IASTUnaryExpression.op_postFixIncr;
 				  prI = IASTUnaryExpression.op_prefixIncr;
+				  
 				  if(op == prI || op == prD || op == poI ||op == poD)
 				  {
                      IASTNode parent = c.getParent();
                      if(parent instanceof IASTBinaryExpression)
-                     {	int minus,multiply;
+                     {	 
+                    	 int minus,multiply;
                     	 op = ((IASTBinaryExpression) parent).getOperator();
                      	 minus = IASTBinaryExpression.op_minus;
                      	 multiply = IASTBinaryExpression.op_multiply;
                          if(op >= multiply && op<= minus) 
-                         {	if(c.isPartOfTranslationUnitFile())
-                        	{	XCExpression expr = Factory.getInstance().createXCExpression((IASTExpression) parent);
- 								res.add(expr);
-                        	}
+                         {	
+                        	XCExpression expr = Factory.getInstance().createXCExpression((IASTExpression) parent);
+ 							res.add(expr);
+                        	
        				     }
                     	 
                      }

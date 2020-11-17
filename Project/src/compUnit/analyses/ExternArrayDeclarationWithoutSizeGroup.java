@@ -2,6 +2,8 @@ package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTArrayDeclarator;
+import org.eclipse.cdt.core.dom.ast.IASTArrayModifier;
+import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTEqualsInitializer;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
@@ -45,25 +47,35 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
 					
 					if(c instanceof IASTArrayDeclarator && c.isPartOfTranslationUnitFile()) 
 					{
-						IASTNode p,b;
-						int ok = 0;
-						p = c.getParent();
-						b = p.getChildren()[0];
-						String type = b.getRawSignature();
-						
-						if(type.indexOf("extern") != -1)
+						IASTNode p = c.getParent();
+						if(p instanceof IASTSimpleDeclaration)
 						{
-							IASTNode children[] = c.getChildren();
-							if(children.length > 2) 
-							{
-								if(children[2] instanceof IASTEqualsInitializer)
-								ok = 1;
-							}
-							if(children[1].getChildren().length == 0 && ok == 0 )
-							{ 
+							IASTDeclSpecifier b = ((IASTSimpleDeclaration) p).getDeclSpecifier();
+						
+							if(b.getStorageClass() == IASTDeclSpecifier.sc_extern)
+							{   
+								int k1=0,k2=0;
+								IASTNode children[] = c.getChildren();
 							
-								XCDeclaration d=Factory.getInstance().createXCDeclaration((IASTSimpleDeclaration)p);
+								for(IASTNode i:children) {
+									if(i instanceof IASTArrayModifier)
+									{
+										if(i.getChildren().length != 0)
+											{k1 = 1;
+											break;
+											}
+									}
+								
+									if(i instanceof IASTEqualsInitializer)
+									{	k2 = 1;
+										break;
+									}
+								}
+							if(k2 == 0 && k1 == 0 )
+							{ 
+								XCDeclaration d=Factory.getInstance().createXCDeclaration(c);
 								res.add(d);
+							}
 							}
 						}
 					}

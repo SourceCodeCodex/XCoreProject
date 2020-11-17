@@ -31,29 +31,24 @@ public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCExpress
 		try {
 			m = arg0.getUnderlyingObject();
 			a = m.getAST();
-		} catch(CoreException e) {
+			
+		}catch(CoreException e) 
+		{
 			e.printStackTrace();
 		}
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
-				if(c instanceof IASTFunctionCallExpression)
+				if(c instanceof IASTFunctionCallExpression && c.isPartOfTranslationUnitFile())
 				{ 
-					String s = c.getRawSignature();
-					int n = s.indexOf('(');
-					if(n != -1)
-					{	s = s.substring(0, n);
-					
-						if(s.equals("abort") || s.equals("exit") || s.equals("getenv") || s.equals("system"))
-						{ 
-							if(c.isPartOfTranslationUnitFile()) 
-						   {
-								XCExpression expr = Factory.getInstance().createXCExpression(c);
-								res.add(expr);
-						   }
-						}
-					}
-					
+					IASTExpression expr = ((IASTFunctionCallExpression) c).getFunctionNameExpression();
+					String name = expr.getRawSignature();
+                    
+					if(name.equals("abort") || name.equals("exit") || name.equals("getenv") || name.equals("system"))
+					{
+						XCExpression fCall = Factory.getInstance().createXCExpression(c);
+						res.add(fCall);
+					}	
 				}
 				
 				return PROCESS_CONTINUE;

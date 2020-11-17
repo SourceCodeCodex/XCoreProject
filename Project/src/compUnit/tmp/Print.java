@@ -21,7 +21,7 @@ public class Print implements IPropertyComputer<String, XCCompUnit>{
 	@Override
 	public String compute(XCCompUnit arg0) {
 		
-		String s=new String();
+		String s = new String();
 		IASTTranslationUnit a = null;
 		ITranslationUnit m=null;
 		try {
@@ -44,25 +44,13 @@ public class Print implements IPropertyComputer<String, XCCompUnit>{
 	    if ((node instanceof CPPASTTranslationUnit)) {
 			  printContents = false;
 			   }
-			
-		String offset = "";
-		try {
-			offset = node.getSyntax() != null ? " (offset: " + node.getFileLocation().getNodeOffset() + "," + node.getFileLocation().getNodeLength() + ")" : "";
-		    printContents = node.getFileLocation().getNodeLength() < 30;
-		 }
-		catch (ExpansionOverlapsBoundaryException e) 
-		{
-		    e.printStackTrace();
-	    }
-		catch (UnsupportedOperationException e)
-		{
-			offset = "UnsupportedOperationException";
-		}
-			
-		System.out.println(String.format(new StringBuilder("%1$").append(index * 2).append("s").toString(), new Object[] { "-" }) + node.getClass().getSimpleName() + offset + " -> " + (printContents ? node.getRawSignature().replaceAll("\n", " \\ ") : node.getRawSignature().subSequence(0, 5)));
+	
+	    String offset = "";
+	    System.out.println(String.format(new StringBuilder("%1$").append(index * 2).append("s").toString(), new Object[] { "-" }) + node.getClass().getSimpleName() + offset + " -> " + (printContents ? node.getRawSignature().replaceAll("\n", " \\ ") : node.getRawSignature().subSequence(0, 5)));
 		
-			  for (IASTNode iastNode : children)
-		       printTree(iastNode, index + 1);
+
+	    for (IASTNode iastNode : children)
+		printTree(iastNode, index + 1);
 	 
 	}
 	

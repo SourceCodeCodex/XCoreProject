@@ -1,7 +1,6 @@
 package declaration.analyses;
 
-import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
-
+import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import project.metamodel.entity.XCDeclaration;
 import ro.lrg.xcore.metametamodel.ActionPerformer;
 import ro.lrg.xcore.metametamodel.HListEmpty;
@@ -13,7 +12,7 @@ public class ShowInEditor extends action.ShowInEditor implements IActionPerforme
 	@Override
 	public Void performAction(XCDeclaration arg0, HListEmpty arg1) {	
 	
-	     IASTSimpleDeclaration c = arg0.getUnderlyingObject();
+	     IASTDeclarator c = arg0.getUnderlyingObject();
 		 showInEditor(c);
 	
 		 return null;

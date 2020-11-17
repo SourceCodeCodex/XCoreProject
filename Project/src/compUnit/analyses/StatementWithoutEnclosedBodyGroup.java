@@ -1,10 +1,13 @@
 package compUnit.analyses;
 
+
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTCompoundStatement;
 import org.eclipse.cdt.core.dom.ast.IASTDoStatement;
 import org.eclipse.cdt.core.dom.ast.IASTForStatement;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTNodeLocation;
+import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroDefinition;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
 import org.eclipse.cdt.core.dom.ast.IASTSwitchStatement;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
@@ -39,6 +42,7 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 		{
 			m = arg0.getUnderlyingObject();
 			a = m.getAST();
+		
 		}
 		catch(CoreException e)
 		{
@@ -49,34 +53,63 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 	
 			public int visit(IASTStatement c) {
 
-				if(c instanceof  IASTForStatement || c instanceof  IASTDoStatement || c instanceof  IASTWhileStatement) 
-				{
-					IASTNode s[] = c.getChildren();
-					int ok = 0;
-					for(IASTNode p:s)
+				if(c.isPartOfTranslationUnitFile()) {
+					int ok = 1;
+					if(c instanceof  IASTForStatement )
 					{
-						if(p instanceof IASTCompoundStatement)	
-						{
-							ok = 1; break;
+				        IASTStatement st = ((IASTForStatement) c).getBody();
+				        
+						if(!(st instanceof IASTCompoundStatement))	
+						{	
+							ok = 0;
 						}
 					}
-					if(ok == 0 && c.isPartOfTranslationUnitFile())
-					{	XCStatement p = Factory.getInstance().createXCStatement(c);
-						res.add(p);
-					}
-				}
-			else
-				if(c instanceof  IASTSwitchStatement)
-				{   IASTNode child = c.getChildren()[1];
-					String s = child.getRawSignature();
+					else
+					   if(c instanceof  IASTDoStatement )
+							{
+						        IASTStatement st = ((IASTDoStatement) c).getBody();
+						        
+								if(!(st instanceof IASTCompoundStatement))	
+								{
+									ok = 0;
+								}
+							}
+					   else
+						   if(c instanceof  IASTWhileStatement)
+							{
+						        IASTStatement st = ((IASTWhileStatement) c).getBody();
+						        
+								if(!(st instanceof IASTCompoundStatement))	
+								{
+									ok = 0;
+								}
+							}
+						   
 					
-					if(s.charAt(0) != '{' && c.isPartOfTranslationUnitFile())
+						   else
+							   if(c instanceof  IASTSwitchStatement)
+							   {   
+								   IASTNode child = ((IASTSwitchStatement) c).getBody();
+								   IASTNodeLocation l[] = child.getNodeLocations();
+								   int offsetCompS = l[0].getNodeOffset();
+					
+								   IASTStatement a[] = ((IASTCompoundStatement) child).getStatements();
+								   int offset = a[0].getNodeLocations()[0].getNodeOffset();
+					    
+								   if(offsetCompS == offset)
+								   {
+									   ok = 0;
+								   }
+							   }
+					
+					
+					if(ok == 0)
 					{
 						XCStatement p = Factory.getInstance().createXCStatement(c);
 						res.add(p);
 					}
-				}
 		
+				}
 				return PROCESS_CONTINUE;
 			}
 	

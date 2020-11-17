@@ -2,6 +2,7 @@ package tests;
 
 import java.util.HashSet;
 import org.eclipse.cdt.core.model.ICProject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,14 +12,12 @@ import project.metamodel.entity.XCProject;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 
-public class Rule2_3Test extends TestClass {
+public class Rule2_3Test{
 	private static XCProject project;
 	private static Group<XCComment> res;
 	
 	@BeforeClass
 	public static void setUpClass() {
-		
-		TestUtil.importProject("test1","test1.zip");
 		ICProject cProject = TestUtil.getProject("test1");
 		project = Factory.getInstance().createXCProject(cProject);
 		res = project.rule2_3();

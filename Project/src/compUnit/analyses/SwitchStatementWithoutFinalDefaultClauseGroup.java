@@ -49,18 +49,17 @@ public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationB
 
 				if(c instanceof  IASTSwitchStatement && c.isPartOfTranslationUnitFile()) 
 				{   
-					IASTNode s[] = c.getChildren();
-					IASTCompoundStatement cs = (IASTCompoundStatement) s[1];
-					IASTNode l[] = cs.getChildren();
+					IASTStatement body = ((IASTSwitchStatement) c).getBody();
+				    IASTNode children[] = body.getChildren();
 					int ok = 0;
 					
-					for(int i = 0; i < l.length; i++)
+					for(int i = 0; i < children.length; i++)
 					{
-						if(l[i] instanceof IASTDefaultStatement)	
+						if(children[i] instanceof IASTDefaultStatement)	
 						{   ok = 1;
-							for( int j = i; j < l.length; j++)
+							for( int j = i+1; j < children.length; j++)
 							{
-								if(l[j] instanceof IASTCaseStatement) {
+								if(children[j] instanceof IASTCaseStatement) {
 									ok = 0; 
 									break;
 								}

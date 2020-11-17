@@ -37,14 +37,17 @@ public class CommentC99Group implements IRelationBuilder<XCComment, XCCompUnit>{
 		
 		IASTComment comm[] = a.getComments();
 		for(IASTComment c:comm)
-		{
+		{ 
 				String s = c.toString();
-				if(s.charAt(0) == s.charAt(1) && s.charAt(1) == '/')
+				if(s.length() > 0)
 				{
-					if(c.isPartOfTranslationUnitFile())
+					if(s.charAt(0) == s.charAt(1) && s.charAt(1) == '/')
 					{
-						XCComment comment = Factory.getInstance().createXCComment(c);
-						res.add(comment);
+						if(c.isPartOfTranslationUnitFile())
+						{
+							XCComment comment = Factory.getInstance().createXCComment(c);
+							res.add(comment);
+						}
 					}
 				}
 		}

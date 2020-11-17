@@ -1,6 +1,7 @@
 package tests;
 import java.util.HashSet;
 import org.eclipse.cdt.core.model.ICProject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,15 +11,13 @@ import project.metamodel.entity.XCStatement;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 
-public class Rule14_5Test extends TestClass  {
+public class Rule14_5Test  {
 
 	private static XCProject project;
 	private static Group<XCStatement> res;
 	
 	@BeforeClass
 	public static void setUpClass() {
-		
-		TestUtil.importProject("test0","test0.zip");
 		ICProject cProject = TestUtil.getProject("test0");
 		project = Factory.getInstance().createXCProject(cProject);
 		res = project.rule14_5();
@@ -46,5 +45,4 @@ public class Rule14_5Test extends TestClass  {
 		    newSet.add("prog2.c17");  
 	        Assert.assertEquals(fileLine,newSet);
 	}
-
 }

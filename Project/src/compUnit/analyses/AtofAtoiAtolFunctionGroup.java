@@ -36,23 +36,15 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCExpression,
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
-				if(c instanceof IASTFunctionCallExpression)
-				{ 
-					String s = c.getRawSignature();
-					int n = s.indexOf('(');
-					if(n != -1) 
+				if(c instanceof IASTFunctionCallExpression && c.isPartOfTranslationUnitFile())
+				{   
+					IASTExpression expr = ((IASTFunctionCallExpression) c).getFunctionNameExpression();
+					String name = expr.getRawSignature();
+					if(name.equals("atof") || name.equals("atol") || name.equals("atoi"))
 					{
-						s = s.substring(0, n);
-					
-						if(s.equals("atof") || s.equals("atol") || s.equals("atoi") )
-						{
-							if(c.isPartOfTranslationUnitFile())
-							{	XCExpression expr = Factory.getInstance().createXCExpression(c);
-								res.add(expr);
-							}
-						}
-					}
-					
+						XCExpression fCall = Factory.getInstance().createXCExpression(c);
+						res.add(fCall);
+					}					
 				}
 				
 				return PROCESS_CONTINUE;

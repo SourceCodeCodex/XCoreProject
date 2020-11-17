@@ -4,11 +4,10 @@ package compUnit.analyses;
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
-import org.eclipse.cdt.core.dom.ast.IASTNode;
-import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
+import org.eclipse.cdt.core.dom.ast.IASTParameterDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
-import org.eclipse.cdt.core.model.IFunction;
 import org.eclipse.cdt.core.model.ITranslationUnit;
+import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionDeclarator;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
@@ -46,14 +45,14 @@ public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, X
 	
 			public int visit(IASTDeclarator c) {
 
-				if(c instanceof  IASTFunctionDeclarator) {
-					IASTNode children[] = c.getChildren();
+				if(c instanceof  CASTFunctionDeclarator && c.isPartOfTranslationUnitFile()) {
 					
-					if(children.length == 1)
-					{  if(c.isPartOfTranslationUnitFile())
-						{	XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
-							res.add(p);
-						}
+					IASTParameterDeclaration[] param =  ((CASTFunctionDeclarator) c).getParameters();
+					int role = c.getRoleForName(c.getName());
+					if(param.length == 0 && (role == IASTFunctionDeclarator.r_definition || role == IASTFunctionDeclarator.r_declaration))
+					{  	XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
+						res.add(p);
+						
 					}
 				}
 				

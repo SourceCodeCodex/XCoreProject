@@ -3,6 +3,7 @@ package tests;
 import java.util.HashSet;
 
 import org.eclipse.cdt.core.model.ICProject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,8 +20,6 @@ public class Rule8_12Test {
 	
 	@BeforeClass
 	public static void setUpClass() {
-		
-		TestUtil.importProject("test2","test2.zip");
 		ICProject cProject = TestUtil.getProject("test2");
 		project = Factory.getInstance().createXCProject(cProject);
 		res = project.rule8_12();
@@ -46,5 +45,4 @@ public class Rule8_12Test {
 		    newSet.add("main.c6");  
 	        Assert.assertEquals(fileLine,newSet);
 	}
-	
 }

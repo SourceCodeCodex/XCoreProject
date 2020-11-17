@@ -38,17 +38,15 @@ public class SignalHeaderGroup implements IRelationBuilder<XCIncludeStatement, X
 		IASTPreprocessorIncludeStatement[] includes = a.getIncludeDirectives();
 		for(IASTPreprocessorIncludeStatement i:includes)
 		{
-			String s = i.getRawSignature();
-			int n1 = s.indexOf('<')+1;
-			int n2 = s.indexOf('>');
-			if(n1 > 0 && n2 > 0)
+			if(i.isPartOfTranslationUnitFile())
 			{
-				s = s.substring(n1,n2);
-			}
-			if(s.equals("signal.h") && i.isPartOfTranslationUnitFile())
-			{ 
-				XCIncludeStatement p = Factory.getInstance().createXCIncludeStatement(i);
-				res.add(p);
+				String name = i.getName().getRawSignature();
+				
+			    if(name.equals("signal.h"))
+			   { 
+			    	XCIncludeStatement p = Factory.getInstance().createXCIncludeStatement(i);
+			    	res.add(p);
+			   }
 			}
 		}
 		

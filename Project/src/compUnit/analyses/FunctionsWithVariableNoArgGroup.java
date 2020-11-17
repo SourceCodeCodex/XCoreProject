@@ -8,6 +8,7 @@ import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
+import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionDeclarator;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
@@ -45,24 +46,19 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 	
 			public int visit(IASTDeclarator c) {
        
-				if(c instanceof  IASTFunctionDeclarator) {
-				IASTNode children[] = c.getChildren();
-				IASTNode parent = c.getParent();
-				if(children.length > 1)
+				if(c instanceof  CASTFunctionDeclarator && c.isPartOfTranslationUnitFile())
 				{
-					XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
-					String f = p.toString();
-					int index = f.indexOf("...");
+				
+					IASTNode parent = c.getParent();
+					boolean varArg = ((CASTFunctionDeclarator) c).takesVarArgs();
 					
-					if(index>0 && index<f.length()-1 && !(parent instanceof IASTSimpleDeclaration))
-				    {	if(c.isPartOfTranslationUnitFile())
-						  res.add(p);
+					if(varArg && c.getRoleForName(c.getName())== IASTFunctionDeclarator.r_definition)
+				    {	  
+						XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
+						res.add(p);
 				    }
 						
-				 }
-				}
-				
-		
+				 }		
 				return 3;
 			}
 	
