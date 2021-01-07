@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCFunction;
+import project.metamodel.entity.XCDeclaration;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -23,14 +23,14 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XCFunction, XCCompUnit>{
+public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XCDeclaration, XCCompUnit>{
 	
 	@Override
-	public Group<XCFunction> buildGroup(XCCompUnit arg0) {
+	public Group<XCDeclaration> buildGroup(XCCompUnit arg0) {
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
 		ASTVisitor v;
-		Group<XCFunction> res = new Group<>();
+		Group<XCDeclaration> res = new Group<>();
 		
 		try {
 			m = arg0.getUnderlyingObject();
@@ -50,10 +50,10 @@ public class FunctionDeclarationAtBlockScopeGroup implements IRelationBuilder<XC
 					IASTNode p2 = p1.getParent();
 					if(p1 instanceof IASTSimpleDeclaration && p2 instanceof IASTDeclarationStatement)
 					{
-						XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator)c);
+						XCDeclaration p = Factory.getInstance().createXCDeclaration(c);
 						res.add(p);
-							
-					 }
+	
+					}
 				}
 				
 		

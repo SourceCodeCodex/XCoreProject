@@ -2,20 +2,15 @@ package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
-import org.eclipse.cdt.core.dom.ast.IASTFileLocation;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionCallExpression;
 import org.eclipse.cdt.core.dom.ast.IASTIdExpression;
 import org.eclipse.cdt.core.dom.ast.IASTMacroExpansionLocation;
-import org.eclipse.cdt.core.dom.ast.IASTName;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IASTNodeLocation;
-import org.eclipse.cdt.core.dom.ast.IASTPreprocessorFunctionStyleMacroDefinition;
 import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroDefinition;
 import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroExpansion;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
-import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
-import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionCallExpression;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
@@ -25,12 +20,10 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-/**Rule20_10
- *  functions atof, atoi and atol from library <stdlib.h> 
- */
+
 
 @RelationBuilder
-public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
+public class FunctionsForDynamicHeapMemoryAllocationGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
 	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
@@ -41,31 +34,32 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCExpression,
 		try {
 			m = arg0.getUnderlyingObject();
 			a = m.getAST();
-		} catch(CoreException e) {
+			
+		}catch(CoreException e) 
+		{
 			e.printStackTrace();
 		}
 		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
 				if(c instanceof IASTFunctionCallExpression && c.isPartOfTranslationUnitFile())
-				{   
-					String name = "";
-				    IASTNode children[] = c.getChildren();
-				    for(IASTNode l:children) 
-				    {
-				    	if(l instanceof IASTIdExpression)
-				    	{
-				    		name = ((IASTIdExpression) l).getName().toString();
-				    		break;
-				    	}
-				    	
-				    }
-					
-					if(name.equals("atof") || name.equals("atol") || name.equals("atoi"))
+				{	String name = "";
+			    	IASTNode children[] = c.getChildren();
+			    	for(IASTNode l:children) 
+			    	{
+			    		if(l instanceof IASTIdExpression)
+			    		{
+			    			name = ((IASTIdExpression) l).getName().toString();
+			    			break;
+			    		}
+			    	
+			    	}
+			    	
+					if(name.equals("malloc") || name.equals("calloc") || name.equals("realloc") || name.equals("free"))
 					{
 						XCExpression fCall = Factory.getInstance().createXCExpression(c);
 						res.add(fCall);
-					}				
+					}	
 				}
 				
 				return PROCESS_CONTINUE;

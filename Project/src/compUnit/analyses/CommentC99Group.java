@@ -26,7 +26,8 @@ public class CommentC99Group implements IRelationBuilder<XCComment, XCCompUnit>{
 		ITranslationUnit m = null;
 		Group<XCComment> res = new Group<>();
 		
-		try {
+		try 
+		{
 				m = arg0.getUnderlyingObject();
 				a = m.getAST();
 		} 
@@ -37,7 +38,7 @@ public class CommentC99Group implements IRelationBuilder<XCComment, XCCompUnit>{
 		
 		IASTComment comm[] = a.getComments();
 		for(IASTComment c:comm)
-		{ 
+		{      
 				String s = c.toString();
 				if(s.length() > 0)
 				{

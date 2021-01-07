@@ -3,6 +3,12 @@ package compUnit.analyses;
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionCallExpression;
+import org.eclipse.cdt.core.dom.ast.IASTIdExpression;
+import org.eclipse.cdt.core.dom.ast.IASTMacroExpansionLocation;
+import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTNodeLocation;
+import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroDefinition;
+import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroExpansion;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -40,10 +46,18 @@ public class AbortExitGetenvSystemFunGroup implements IRelationBuilder<XCExpress
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
 				if(c instanceof IASTFunctionCallExpression && c.isPartOfTranslationUnitFile())
-				{ 
-					IASTExpression expr = ((IASTFunctionCallExpression) c).getFunctionNameExpression();
-					String name = expr.getRawSignature();
-                    
+				{	String name = "";
+			    	IASTNode children[] = c.getChildren();
+			    	for(IASTNode l:children) 
+			    	{
+			    		if(l instanceof IASTIdExpression)
+			    		{
+			    			name = ((IASTIdExpression) l).getName().toString();
+			    			break;
+			    		}
+			    	
+			    	}
+			    	
 					if(name.equals("abort") || name.equals("exit") || name.equals("getenv") || name.equals("system"))
 					{
 						XCExpression fCall = Factory.getInstance().createXCExpression(c);

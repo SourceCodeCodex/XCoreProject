@@ -11,7 +11,7 @@ import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionDeclarator;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCFunction;
+import project.metamodel.entity.XCDeclaration;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -23,15 +23,15 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, XCCompUnit>{
+public class FunctionsWithNoParamGroup implements IRelationBuilder<XCDeclaration, XCCompUnit>{
 	
 	@Override
-	public Group<XCFunction> buildGroup(XCCompUnit arg0) {
+	public Group<XCDeclaration> buildGroup(XCCompUnit arg0) {
 	
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
 		ASTVisitor v;
-		Group<XCFunction> res = new Group<>();
+		Group<XCDeclaration> res = new Group<>();
 	
 		try {
 			m = arg0.getUnderlyingObject();
@@ -49,8 +49,10 @@ public class FunctionsWithNoParamGroup implements IRelationBuilder<XCFunction, X
 					
 					IASTParameterDeclaration[] param =  ((CASTFunctionDeclarator) c).getParameters();
 					int role = c.getRoleForName(c.getName());
+					
 					if(param.length == 0 && (role == IASTFunctionDeclarator.r_definition || role == IASTFunctionDeclarator.r_declaration))
-					{  	XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
+					{  	
+						XCDeclaration p = Factory.getInstance().createXCDeclaration(c);
 						res.add(p);
 						
 					}

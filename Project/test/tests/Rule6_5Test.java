@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.HashSet;
+
 import org.eclipse.cdt.core.model.ICProject;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -27,15 +29,23 @@ public class Rule6_5Test {
 	public void verifyNoOfSignedBitFieldWith1BitLength(){
 		
         int noOfElements = res.getElements().size();
-        Assert.assertEquals(noOfElements,1);
+        Assert.assertEquals(noOfElements,2);
 	}
 
 	
 	@Test
 	public void verifyLinesAndFileNameOfSignedBitFieldWith1BitLength(){
-		    XCDeclaration d = res.getElements().get(0);
-		    String s = d.fileName()+d.lineNumber();
-	        Assert.assertEquals(s,"function2.c9");
+		
+	     
+		HashSet<String> fileLine = new HashSet<String>(); 
+		for(XCDeclaration s: res.getElements()) 
+		{   
+			fileLine.add(s.fileName()+s.lineNumber());
+		}
+		HashSet<String> newSet = new HashSet<String>();
+		newSet.add("function2.c9");  
+	    newSet.add("function2.c10");  
+        Assert.assertEquals(fileLine,newSet);
 	}
 
 }

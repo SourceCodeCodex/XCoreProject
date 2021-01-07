@@ -5,14 +5,13 @@ import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
-import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionDeclarator;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
-import project.metamodel.entity.XCFunction;
+import project.metamodel.entity.XCDeclaration;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -24,14 +23,14 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunction, XCCompUnit>{
+public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCDeclaration, XCCompUnit>{
 	
 	@Override
-	public Group<XCFunction> buildGroup(XCCompUnit arg0) {
+	public Group<XCDeclaration> buildGroup(XCCompUnit arg0) {
 		IASTTranslationUnit a = null;
 		ITranslationUnit m = null;
 		ASTVisitor v;
-		Group<XCFunction> res = new Group<>();
+		Group<XCDeclaration> res = new Group<>();
 		
 		try {
 			m = arg0.getUnderlyingObject();
@@ -49,12 +48,12 @@ public class FunctionsWithVariableNoArgGroup implements IRelationBuilder<XCFunct
 				if(c instanceof  CASTFunctionDeclarator && c.isPartOfTranslationUnitFile())
 				{
 				
-					IASTNode parent = c.getParent();
+					//IASTNode parent = c.getParent();
 					boolean varArg = ((CASTFunctionDeclarator) c).takesVarArgs();
 					
 					if(varArg && c.getRoleForName(c.getName())== IASTFunctionDeclarator.r_definition)
 				    {	  
-						XCFunction p = Factory.getInstance().createXCFunction((IASTFunctionDeclarator) c);
+						XCDeclaration p = Factory.getInstance().createXCDeclaration(c);
 						res.add(p);
 				    }
 						

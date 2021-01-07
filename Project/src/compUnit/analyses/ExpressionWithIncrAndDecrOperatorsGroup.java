@@ -1,8 +1,8 @@
 package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
-import org.eclipse.cdt.core.dom.ast.IASTBinaryExpression;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
+import org.eclipse.cdt.core.dom.ast.IASTInitializer;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IASTUnaryExpression;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
@@ -22,7 +22,7 @@ import ro.lrg.xcore.metametamodel.RelationBuilder;
  */
 
 @RelationBuilder
-public class BinaryExpressionWithIncrAndDecrOperatorsGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
+public class ExpressionWithIncrAndDecrOperatorsGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
 	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
@@ -40,36 +40,27 @@ public class BinaryExpressionWithIncrAndDecrOperatorsGroup implements IRelationB
 		}
 		
 		ASTVisitor v = new ASTVisitor() {			
-			public int visit(IASTExpression c) {
+		public int visit(IASTExpression c) {
 				
 				if(c instanceof IASTUnaryExpression && c.isPartOfTranslationUnitFile())
-				{ int op,poD,poI,prD,prI;
-				  op = ((IASTUnaryExpression) c).getOperator();
-			
-				  poD = IASTUnaryExpression.op_postFixDecr;
-				  prD = IASTUnaryExpression.op_prefixDecr;
-				  poI = IASTUnaryExpression.op_postFixIncr;
-				  prI = IASTUnaryExpression.op_prefixIncr;
-				  
-				  if(op == prI || op == prD || op == poI ||op == poD)
-				  {
-                     IASTNode parent = c.getParent();
-                     if(parent instanceof IASTBinaryExpression)
-                     {	 
-                    	 int minus,multiply;
-                    	 op = ((IASTBinaryExpression) parent).getOperator();
-                     	 minus = IASTBinaryExpression.op_minus;
-                     	 multiply = IASTBinaryExpression.op_multiply;
-                         if(op >= multiply && op<= minus) 
-                         {	
-                        	XCExpression expr = Factory.getInstance().createXCExpression((IASTExpression) parent);
- 							res.add(expr);
-                        	
-       				     }
-                    	 
-                     }
-                     
-				   }
+				{ 
+				
+                    	int poD = IASTUnaryExpression.op_postFixDecr;
+                    	int prD = IASTUnaryExpression.op_prefixDecr;
+      				  	int poI = IASTUnaryExpression.op_postFixIncr;
+      				  	int prI = IASTUnaryExpression.op_prefixIncr;
+                    	int op = ((IASTUnaryExpression) c).getOperator();
+                    	
+                    	IASTNode parent = c.getParent();
+                    	
+                    	if(parent instanceof IASTExpression || parent instanceof IASTInitializer)
+                    	{	
+                    		if(op == prI || op == prD || op == poI ||op == poD)
+                    		{
+                    			XCExpression expr = Factory.getInstance().createXCExpression(c);
+                    			res.add(expr);
+                    		}
+                    	}
 				}
 				
 				return PROCESS_CONTINUE;

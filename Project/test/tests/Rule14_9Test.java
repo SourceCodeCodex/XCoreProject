@@ -3,48 +3,48 @@ package tests;
 import java.util.HashSet;
 
 import org.eclipse.cdt.core.model.ICProject;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import project.metamodel.entity.XCExpression;
 import project.metamodel.entity.XCProject;
+import project.metamodel.entity.XCStatement;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 
-public class Rule12_13Test {
+public class Rule14_9Test {
 	private static XCProject project;
-	private static Group<XCExpression> res;
+	private static Group<XCStatement> res;
 	
 	@BeforeClass
 	public static void setUpClass() {
 		ICProject cProject = TestUtil.getProject("test2");
 		project = Factory.getInstance().createXCProject(cProject);
-		res = project.rule12_13();
+		res = project.rule14_9();
 	}
 	
 	@Test
-	public void verifyNoOfBinaryExpressionWithIncrAndDecrOperators(){
+	public void verifyNoIfWithoutCompoundStatement(){
 		
         int noOfElements = res.getElements().size();
-        Assert.assertEquals(noOfElements,5);
+        Assert.assertEquals(noOfElements,4);
 	}
-	
+
 	
 	@Test
-	public void verifyLinesAndFileNameOfBinaryExpressionWithIncrAndDecrOperators(){
-		 HashSet<String> fileLine = new HashSet<String>(); 
-			for(XCExpression s: res.getElements()) 
-			{  
+	public void verifyLinesAndFileNameOfIfWithoutCompoundStatement(){
+		  HashSet<String> fileLine = new HashSet<String>(); 
+			for(XCStatement s: res.getElements()) 
+			{   
 				fileLine.add(s.fileName()+s.lineNumber());
 			}
-			HashSet<String> newSet = new HashSet<String>();
-			newSet.add("print.c19"); 
-			newSet.add("print.c18");
-			newSet.add("myColor.c6"); 
-			newSet.add("myColor.c7"); 
-			newSet.add("myColor.c10"); 
+			
+			HashSet<String> newSet = new HashSet<String>(); 
+		    newSet.add("sum.c32"); 
+			newSet.add("print.c20");  
+		    newSet.add("myColor.c13");  
+		    newSet.add("print.c39"); 
 	        Assert.assertEquals(fileLine,newSet);
 	}
+	
 }

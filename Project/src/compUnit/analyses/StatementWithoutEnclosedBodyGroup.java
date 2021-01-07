@@ -7,7 +7,6 @@ import org.eclipse.cdt.core.dom.ast.IASTDoStatement;
 import org.eclipse.cdt.core.dom.ast.IASTForStatement;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IASTNodeLocation;
-import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroDefinition;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
 import org.eclipse.cdt.core.dom.ast.IASTSwitchStatement;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
@@ -65,7 +64,7 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 						}
 					}
 					else
-					   if(c instanceof  IASTDoStatement )
+					     if(c instanceof  IASTDoStatement )
 							{
 						        IASTStatement st = ((IASTDoStatement) c).getBody();
 						        
@@ -92,11 +91,19 @@ public class StatementWithoutEnclosedBodyGroup implements IRelationBuilder<XCSta
 								   IASTNode child = ((IASTSwitchStatement) c).getBody();
 								   IASTNodeLocation l[] = child.getNodeLocations();
 								   int offsetCompS = l[0].getNodeOffset();
-					
-								   IASTStatement a[] = ((IASTCompoundStatement) child).getStatements();
-								   int offset = a[0].getNodeLocations()[0].getNodeOffset();
-					    
-								   if(offsetCompS == offset)
+								   int offset;
+								   
+								   if(child instanceof IASTCompoundStatement)
+								   {
+									   IASTStatement a[] = ((IASTCompoundStatement) child).getStatements();
+								       offset = a[0].getNodeLocations()[0].getNodeOffset();
+								   
+								       if(offsetCompS == offset)
+								       {
+								    	   ok = 0;
+								       }
+								   }
+								   else
 								   {
 									   ok = 0;
 								   }

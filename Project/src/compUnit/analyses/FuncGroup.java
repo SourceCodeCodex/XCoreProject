@@ -1,12 +1,13 @@
 package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
-import org.eclipse.cdt.core.dom.ast.IASTCaseStatement;
-import org.eclipse.cdt.core.dom.ast.IASTDefaultStatement;
-import org.eclipse.cdt.core.dom.ast.IASTNode;
+import org.eclipse.cdt.core.dom.ast.IASTCompoundStatement;
+import org.eclipse.cdt.core.dom.ast.IASTExpression;
+import org.eclipse.cdt.core.dom.ast.IASTIfStatement;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
-import org.eclipse.cdt.core.dom.ast.IASTSwitchStatement;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
+import org.eclipse.cdt.core.dom.ast.IBasicType;
+import org.eclipse.cdt.core.dom.ast.IType;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
 
@@ -18,11 +19,12 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
- * Rule15_3
+ * Rule 14.9 (required): An if (expression) construct shall be followed by a compound statement. 
+ * The else keyword shall be followed by either a compound statement, or another if statement.
  */
 
 @RelationBuilder
-public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationBuilder<XCStatement, XCCompUnit>{
+public class FuncGroup implements IRelationBuilder<XCStatement, XCCompUnit>{
 	
 	@Override
 	public Group<XCStatement> buildGroup(XCCompUnit arg0) {
@@ -36,6 +38,7 @@ public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationB
 		{
 			m = arg0.getUnderlyingObject();
 			a = m.getAST();
+		
 		}
 		catch(CoreException e)
 		{
@@ -46,43 +49,31 @@ public class SwitchStatementWithoutFinalDefaultClauseGroup implements IRelationB
 	
 			public int visit(IASTStatement c) {
 
-				if(c instanceof  IASTSwitchStatement && c.isPartOfTranslationUnitFile()) 
-				{   
-					IASTStatement body = ((IASTSwitchStatement) c).getBody();
-				    IASTNode children[] = body.getChildren();
-					int ok = 0;
+				if(c.isPartOfTranslationUnitFile()) {
 					
-					for(int i = 0; i < children.length; i++)
-					{
-						if(children[i] instanceof IASTDefaultStatement)	
-						{   ok = 1;
-							for( int j = i+1; j < children.length; j++)
-							{
-								if(children[j] instanceof IASTCaseStatement) {
-									ok = 0; 
-									break;
-								}
-							}
-						}
+					if(c instanceof  IASTIfStatement )
+					{ 
+						IASTExpression e = ((IASTIfStatement) c).getConditionExpression();
+						IType t = e.getExpressionType();
+						IBasicType.Kind k = ((IBasicType) t).getKind();
+						System.out.println(k);
+						System.out.println(IBasicType.Kind.eBoolean);
+						System.out.println(IBasicType.Kind.eInt);
+					
 					}
-					if(ok == 0)
-					{   	
-						XCStatement p = Factory.getInstance().createXCStatement(c);
-						res.add(p);
-					}
-		
 				}
-			
-		
+				        
 				return PROCESS_CONTINUE;
 			}
 	
-		};
+
 	
+		};
 		v.shouldVisitStatements = true;
 		a.accept(v);
 		return res;
  
 	}
 }
+	
 	

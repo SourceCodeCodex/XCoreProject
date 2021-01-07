@@ -41,7 +41,7 @@ public class StdioHeaderGroup implements IRelationBuilder<XCIncludeStatement, XC
 		{
 			if(i.isPartOfTranslationUnitFile())
 			{
-				String name = i.getName().getRawSignature();
+				String name = i.getName().toString();
 				
 			    if(name.equals("stdio.h"))
 			   { 
@@ -61,6 +61,7 @@ public class StdioHeaderGroup implements IRelationBuilder<XCIncludeStatement, XC
 
 
 	
+
 	
 
 

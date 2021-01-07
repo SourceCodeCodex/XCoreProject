@@ -5,12 +5,16 @@ import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTFieldDeclarator;
-import org.eclipse.cdt.core.dom.ast.IASTName;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
+import org.eclipse.cdt.core.dom.ast.IBasicType;
+import org.eclipse.cdt.core.dom.ast.IBinding;
+import org.eclipse.cdt.core.dom.ast.IType;
+import org.eclipse.cdt.core.dom.ast.ITypedef;
 import org.eclipse.cdt.core.model.ITranslationUnit;
+import org.eclipse.cdt.internal.core.dom.parser.c.CASTTypedefNameSpecifier;
 import org.eclipse.core.runtime.CoreException;
 
 import project.metamodel.entity.XCCompUnit;
@@ -48,12 +52,11 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 			public int visit(IASTDeclarator c) {
 				
 				if(c instanceof IASTFieldDeclarator && c.isPartOfTranslationUnitFile())
-				{
+				{   int ok = 1;
 			    	IASTExpression size = ((IASTFieldDeclarator) c).getBitFieldSize();
-					IASTName name = c.getName();
-					int v = Integer.parseInt(size.getRawSignature());
+					int v = Integer.parseInt(size.toString());
 					
-					if((v == 1 && !name.getRawSignature().equals("")) || v == 0 )
+					if(v<2)
 					{   
 						IASTNode p = c.getParent();
 						if(p instanceof IASTSimpleDeclaration)
@@ -65,13 +68,37 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 							{
 								f = (IASTSimpleDeclSpecifier) decl;
 							
-			          
 								if(f.isSigned())
 								{
-									XCDeclaration d = Factory.getInstance().createXCDeclaration(c);
-									res.add(d);
+									ok = 0;
+									
 								}
 							}
+						
+						else
+							if(decl instanceof CASTTypedefNameSpecifier )
+							{
+								IBinding bind = ((CASTTypedefNameSpecifier) decl).findBindings(((CASTTypedefNameSpecifier) decl).getName(),false)[0];
+								
+								if(bind instanceof ITypedef)
+								 {
+									IType type = ((ITypedef) bind).getType();
+									if(type instanceof IBasicType) 
+									{   
+										IBasicType basicType = (IBasicType)type;
+										if(basicType.isSigned())
+										{
+											ok = 0;
+											
+										}
+								    }		
+								 }
+							}
+						}
+						if(ok == 0)
+						{
+							XCDeclaration d = Factory.getInstance().createXCDeclaration(c);
+							res.add(d);
 						}
 					}
 				}

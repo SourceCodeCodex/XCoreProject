@@ -2,22 +2,12 @@ package compUnit.analyses;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
 import org.eclipse.cdt.core.dom.ast.IASTExpression;
-import org.eclipse.cdt.core.dom.ast.IASTFileLocation;
 import org.eclipse.cdt.core.dom.ast.IASTFunctionCallExpression;
 import org.eclipse.cdt.core.dom.ast.IASTIdExpression;
-import org.eclipse.cdt.core.dom.ast.IASTMacroExpansionLocation;
-import org.eclipse.cdt.core.dom.ast.IASTName;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
-import org.eclipse.cdt.core.dom.ast.IASTNodeLocation;
-import org.eclipse.cdt.core.dom.ast.IASTPreprocessorFunctionStyleMacroDefinition;
-import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroDefinition;
-import org.eclipse.cdt.core.dom.ast.IASTPreprocessorMacroExpansion;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
-import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
-import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionCallExpression;
 import org.eclipse.core.runtime.CoreException;
-
 import project.metamodel.entity.XCCompUnit;
 import project.metamodel.entity.XCExpression;
 import project.metamodel.factory.Factory;
@@ -25,12 +15,11 @@ import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
-/**Rule20_10
- *  functions atof, atoi and atol from library <stdlib.h> 
+/**
+ * Rule 20.7 (required): The setjmp macro and the longjmp function shall not be used.
  */
-
 @RelationBuilder
-public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
+public class SetjmpLongjmpGroup implements IRelationBuilder<XCExpression, XCCompUnit>{
 	
 	@Override
 	public Group<XCExpression> buildGroup(XCCompUnit arg0) {
@@ -44,12 +33,10 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCExpression,
 		} catch(CoreException e) {
 			e.printStackTrace();
 		}
-		
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
 				if(c instanceof IASTFunctionCallExpression && c.isPartOfTranslationUnitFile())
-				{   
-					String name = "";
+				{   String name = "";
 				    IASTNode children[] = c.getChildren();
 				    for(IASTNode l:children) 
 				    {
@@ -60,12 +47,12 @@ public class AtofAtoiAtolFunctionGroup implements IRelationBuilder<XCExpression,
 				    	}
 				    	
 				    }
-					
-					if(name.equals("atof") || name.equals("atol") || name.equals("atoi"))
+			    	
+					if(name.equals("_setjmp") || name.equals("longjmp"))
 					{
 						XCExpression fCall = Factory.getInstance().createXCExpression(c);
 						res.add(fCall);
-					}				
+					}					
 				}
 				
 				return PROCESS_CONTINUE;

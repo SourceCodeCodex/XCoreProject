@@ -28,7 +28,7 @@ public class Rule12_10Test {
 	public void verifyNoOfExpressionList(){
 		
         int noOfElements = res.getElements().size();
-        Assert.assertEquals(noOfElements,1);
+        Assert.assertEquals(noOfElements,2);
 	}
 	
 	
@@ -42,6 +42,7 @@ public class Rule12_10Test {
 		
 		HashSet<String> newSet = new HashSet<String>();
 		newSet.add("function2.c26"); 
+		newSet.add("function2.c29");
         Assert.assertEquals(fileLine,newSet);
 	}
 

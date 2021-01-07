@@ -33,8 +33,6 @@ public class MyXEntityConverter implements XEntityConverter {
 			return Factory.getInstance().createXCExpression((IASTExpression)element);
 		else if(element instanceof IASTComment)
 			return Factory.getInstance().createXCComment((IASTComment)element);
-		else if(element instanceof IASTFunctionDeclarator)
-			return Factory.getInstance().createXCFunction((IASTFunctionDeclarator)element);
 		else if(element instanceof IASTDeclarator)
 			return Factory.getInstance().createXCDeclaration((IASTDeclarator)element);
 		return null;

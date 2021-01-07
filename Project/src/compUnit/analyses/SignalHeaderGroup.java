@@ -40,7 +40,7 @@ public class SignalHeaderGroup implements IRelationBuilder<XCIncludeStatement, X
 		{
 			if(i.isPartOfTranslationUnitFile())
 			{
-				String name = i.getName().getRawSignature();
+				String name = i.getName().toString();
 				
 			    if(name.equals("signal.h"))
 			   { 

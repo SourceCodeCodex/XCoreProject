@@ -8,30 +8,29 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /*
- * Rule 12.13 (advisory): The increment (++) and decrement (--) operators should not be mixed with other operators 
- * in an expression.
+ * Rule 13.3 (required): Floating-point expressions shall not be tested for equality or
+ * inequality.
  */
-
 @RelationBuilder
-public class Rule12_13 implements IRelationBuilder<XCExpression,XCProject>{
+public class Rule13_3 implements IRelationBuilder<XCExpression,XCProject>{
 	
 	@Override
 	public Group<XCExpression> buildGroup(XCProject arg0) {
   
 		Group<XCCompUnit> compU = new Group<>();
-		Group<XCExpression> exprB = new Group<>();
+		Group<XCExpression> exprU = new Group<>();
 		Group<XCExpression> exp = new Group<>();
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements())
 		{
-			exp = cu.expressionWithIncrAndDecrOperatorsGroup();
+			exp = cu.floatingPointExpressionsTestedForEqualityInequalityGroup();
 	        for(XCExpression cs : exp.getElements()) 
 	        {
-				exprB.add(cs);
+				exprU.add(cs);
 	        }
 		}
 	
-		return exprB;
+		return exprU;
 	}
 
 }

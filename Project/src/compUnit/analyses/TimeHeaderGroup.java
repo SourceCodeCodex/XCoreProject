@@ -40,7 +40,7 @@ public class TimeHeaderGroup implements IRelationBuilder<XCIncludeStatement, XCC
 		{
 			if(i.isPartOfTranslationUnitFile())
 			{
-				String name = i.getName().getRawSignature();
+				String name = i.getName().toString();
 				
 			    if(name.equals("time.h"))
 			   { 

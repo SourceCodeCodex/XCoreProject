@@ -5,6 +5,7 @@ import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTUnaryExpression;
 import org.eclipse.cdt.core.dom.ast.IBasicType;
 import org.eclipse.cdt.core.dom.ast.IType;
+import org.eclipse.cdt.core.dom.ast.ITypedef;
 import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
 import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.runtime.CoreException;
@@ -43,15 +44,25 @@ public class UnsignedExpressionWithUnaryMinusGroup implements IRelationBuilder<X
 		ASTVisitor v = new ASTVisitor() {			
 			public int visit(IASTExpression c) {
 				if(c instanceof IASTUnaryExpression && c.isPartOfTranslationUnitFile())
-				{   
+				{    
 				     int op = ((IASTUnaryExpression) c).getOperator();
-				     String type = c.getExpressionType().toString();
-			         if(type.indexOf("unsigned") !=-1 && op == IASTUnaryExpression.op_minus )
-			         {	XCExpression expr = Factory.getInstance().createXCExpression(c);
-						res.add(expr);
-			         }
-				
-				}
+				     IType type = c.getExpressionType();
+				    
+				     if(type instanceof ITypedef)
+					 {
+						type = ((ITypedef) type).getType();
+					 }
+							
+					 if(type instanceof IBasicType) 
+				     {
+					    	 if(((IBasicType) type).isUnsigned() && op == IASTUnaryExpression.op_minus )
+					    	 {	
+					    		 XCExpression expr = Factory.getInstance().createXCExpression(c);
+					    		 res.add(expr);
+					    	 }					         
+					 }
+							
+				 }
 				
 				return PROCESS_CONTINUE;
 			}

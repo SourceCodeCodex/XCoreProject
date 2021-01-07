@@ -29,6 +29,7 @@ public abstract class ShowInEditor {
 				int lineNo = l.getNodeOffset();
 				//editor.selectAndReveal(l.getNodeOffset(), ((ASTNode) node).getLength());
 				editor.selectAndReveal(lineNo, l.getNodeLength());
+				
 			}
 		}
 		catch( PartInitException e)

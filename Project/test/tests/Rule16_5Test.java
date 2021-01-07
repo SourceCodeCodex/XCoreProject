@@ -3,19 +3,18 @@ package tests;
 import java.util.HashSet;
 
 import org.eclipse.cdt.core.model.ICProject;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import project.metamodel.entity.XCFunction;
+import project.metamodel.entity.XCDeclaration;
 import project.metamodel.entity.XCProject;
 import project.metamodel.factory.Factory;
 import ro.lrg.xcore.metametamodel.Group;
 
 public class Rule16_5Test {
 	private static XCProject project;
-	private static Group<XCFunction> res;
+	private static Group<XCDeclaration> res;
 	
 	@BeforeClass
 	public static void setUpClass() {
@@ -35,7 +34,7 @@ public class Rule16_5Test {
 	@Test
 	public void verifyLinesAndFileNameOfFunctionWithNoParam(){
 		 HashSet<String> fileLine = new HashSet<String>(); 
-			for(XCFunction s: res.getElements()) 
+			for(XCDeclaration s: res.getElements()) 
 			{  
 				fileLine.add(s.fileName()+s.lineNumber());
 			}

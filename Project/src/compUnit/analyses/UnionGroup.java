@@ -41,7 +41,7 @@ public class UnionGroup implements IRelationBuilder<XCSpecifier, XCCompUnit>{
 			public int visit(IASTDeclSpecifier c) {
 				if(c instanceof IASTCompositeTypeSpecifier && c.isPartOfTranslationUnitFile()) 
 				{
-					if(((IASTCompositeTypeSpecifier) c).getKey( )== 2)
+					if(((IASTCompositeTypeSpecifier) c).getKey( )== IASTCompositeTypeSpecifier.k_union)
 					{
 						XCSpecifier u = Factory.getInstance().createXCSpecifier(c);
 						res.add(u);
