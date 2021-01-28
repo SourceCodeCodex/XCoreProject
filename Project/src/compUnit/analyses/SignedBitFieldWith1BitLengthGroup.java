@@ -54,57 +54,84 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 				if(c instanceof IASTFieldDeclarator && c.isPartOfTranslationUnitFile())
 				{   int ok = 1;
 			    	IASTExpression size = ((IASTFieldDeclarator) c).getBitFieldSize();
-					int v = Integer.parseInt(size.toString());
-					
-					if(v<2)
+			    	if(isNumeric(size.getRawSignature()) == true)
 					{   
-						IASTNode p = c.getParent();
-						if(p instanceof IASTSimpleDeclaration)
-						{
-							IASTSimpleDeclSpecifier f = null;
-							IASTDeclSpecifier decl = ((IASTSimpleDeclaration) p).getDeclSpecifier();
+			    		int v = Integer.parseInt(size.getRawSignature());
+					
+			    		if(v<2)
+			    		{   
+			    			IASTNode p = c.getParent();
+			    			if(p instanceof IASTSimpleDeclaration)
+			    			{
+			    				IASTSimpleDeclSpecifier f = null;
+			    				IASTDeclSpecifier decl = ((IASTSimpleDeclaration) p).getDeclSpecifier();
 							
-							if(decl instanceof IASTSimpleDeclSpecifier)
-							{
-								f = (IASTSimpleDeclSpecifier) decl;
+			    				if(decl instanceof IASTSimpleDeclSpecifier)
+			    				{
+			    					f = (IASTSimpleDeclSpecifier) decl;
 							
-								if(f.isSigned())
-								{
-									ok = 0;
+			    					if(f.isSigned())
+			    					{	
+			    						ok = 0;
 									
-								}
-							}
+			    					}
+			    				}
 						
-						else
-							if(decl instanceof CASTTypedefNameSpecifier )
-							{
-								IBinding bind = ((CASTTypedefNameSpecifier) decl).findBindings(((CASTTypedefNameSpecifier) decl).getName(),false)[0];
+			    				else
+			    					if(decl instanceof CASTTypedefNameSpecifier )
+			    					{
+			    						IBinding bindings[] = ((CASTTypedefNameSpecifier) decl).findBindings(((CASTTypedefNameSpecifier) decl).getName(),false);
 								
-								if(bind instanceof ITypedef)
-								 {
-									IType type = ((ITypedef) bind).getType();
-									if(type instanceof IBasicType) 
-									{   
-										IBasicType basicType = (IBasicType)type;
-										if(basicType.isSigned())
-										{
-											ok = 0;
-											
-										}
-								    }		
-								 }
-							}
-						}
-						if(ok == 0)
-						{
-							XCDeclaration d = Factory.getInstance().createXCDeclaration(c);
-							res.add(d);
-						}
+			    						if(bindings.length > 0)
+			    						{ 
+									
+			    							IBinding bind = bindings[0];
+			    							if(bind instanceof ITypedef)
+			    							{
+			    								IType type = ((ITypedef) bind).getType();
+			    								if(type instanceof IBasicType) 
+			    								{   
+			    									IBasicType basicType = (IBasicType)type;
+			    									if(basicType.isSigned())
+													{
+														ok = 0;
+													
+													}
+			    								}		
+			    							}
+			    						}
+			    					}
+							
+			    				if(ok == 0)
+			    				{
+			    					XCDeclaration d = Factory.getInstance().createXCDeclaration(c);
+			    					res.add(d);
+			    				}
+			    			}
+			    		}
 					}
 				}
-				
 				return PROCESS_CONTINUE;
 			
+			}
+			
+			private boolean isNumeric(String s)
+			{
+				boolean ok = true;
+				
+				if (s.length() == 0 || s == null)
+				{
+					ok = false;
+		        }
+
+		        for (char i : s.toCharArray()) {
+		            if (!Character.isDigit(i)) {
+		                ok = false;
+		                break;
+		            }
+		        }
+				
+				return ok;
 			}
 		};
 		
@@ -114,4 +141,6 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 		return res;
 	
 	}
+	
+
 }

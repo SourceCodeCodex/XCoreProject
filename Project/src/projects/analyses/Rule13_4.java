@@ -8,29 +8,32 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
- * The continue statement shall not be used
+ * Rule 13.4 (required): The controlling expression of a for statement shall not contain
+ * any objects of floating type.
  */
 
 @RelationBuilder
-public class Rule14_5 implements IRelationBuilder<XCStatement,XCProject>{
+public class Rule13_4 implements IRelationBuilder<XCStatement,XCProject>{
 	
+
 	@Override
 	public Group<XCStatement> buildGroup(XCProject arg0) {
 
 		Group<XCCompUnit> compU = new Group<>();
-		Group<XCStatement> continueS = new Group<>();
-		Group<XCStatement> contS = new Group<>();
+		Group<XCStatement> forS = new Group<>();
+		Group<XCStatement> x = new Group<>();
+		
 		compU = arg0.compUnitGroup();
 		for(XCCompUnit cu: compU.getElements())
 		{
-			contS = cu.continueStatementGroup();
-	        for(XCStatement cs:contS.getElements()) 
+			x = cu.forStatementWithFloatingObjectsInControllingExpressionGroup();
+	        for(XCStatement cs:x.getElements()) 
 	        {
-				continueS.add(cs);
+				forS.add(cs);
 	        }
 		}
 		
-		return continueS;
+		return forS;
 	}
 
 }

@@ -80,10 +80,7 @@ public class FloatingPointExpressionsTestedForEqualityInequalityGroup implements
 		
 		private boolean verifyType(IType type)
 		{
-			if(type instanceof ITypedef)
-		    {
-		   		type = ((ITypedef) type).getType();
-		   	}
+			type = getType(type);
     	    
     	    if(type instanceof IBasicType) 
 		    {
@@ -95,6 +92,19 @@ public class FloatingPointExpressionsTestedForEqualityInequalityGroup implements
 		    }
     	    return false;
 		}
+		
+		private IType getType(IType type)
+		{
+			if(type instanceof ITypedef)
+			{
+				type = ((ITypedef) type).getType();
+				return getType(type);
+			}
+			else
+				return type;
+			
+		}
+		
 	};
 		
 		v.shouldVisitExpressions = true;

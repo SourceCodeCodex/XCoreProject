@@ -101,20 +101,31 @@ public class BitwiseOperatorsAppliedToSignedOperandsGroup implements IRelationBu
 		
 		private boolean verifyType(IType type)
 		{
-			if(type instanceof ITypedef)
-			 {
-				type = ((ITypedef) type).getType();
-			 }
+			 type = getType(type);
 					
 			 if(type instanceof IBasicType) 
-		     { 
-			    	 if(((IBasicType) type).isSigned())	
-			    	 {	 
-			    		 return true;
-			    	 }	 
+		     {  
+				 IBasicType.Kind kind = ((IBasicType) type).getKind();
+		    
+			     if(((IBasicType) type).isSigned() &&  (kind == IBasicType.Kind.eUnspecified || kind == IBasicType.Kind.eInt || kind == IBasicType.Kind.eChar) )	
+			   	 {	 
+			   		 return true;
+			   	 }	 
 			 }
 
 			 return false;
+		}
+		
+		private IType getType(IType type)
+		{
+			if(type instanceof ITypedef)
+			{
+				type = ((ITypedef) type).getType();
+				return getType(type);
+			}
+			else
+				return type;
+			
 		}
 		
 		};

@@ -47,11 +47,7 @@ public class UnsignedExpressionWithUnaryMinusGroup implements IRelationBuilder<X
 				{    
 				     int op = ((IASTUnaryExpression) c).getOperator();
 				     IType type = c.getExpressionType();
-				    
-				     if(type instanceof ITypedef)
-					 {
-						type = ((ITypedef) type).getType();
-					 }
+				     type = getType(type);
 							
 					 if(type instanceof IBasicType) 
 				     {
@@ -66,6 +62,19 @@ public class UnsignedExpressionWithUnaryMinusGroup implements IRelationBuilder<X
 				
 				return PROCESS_CONTINUE;
 			}
+			
+			private IType getType(IType type)
+			{
+				if(type instanceof ITypedef)
+				{
+					type = ((ITypedef) type).getType();
+					return getType(type);
+				}
+				else
+					return type;
+				
+			}
+			
 		};
 		
 		v.shouldVisitExpressions = true;

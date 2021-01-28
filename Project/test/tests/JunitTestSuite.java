@@ -12,7 +12,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		Rule14_8Test.class, Rule14_9Test.class,Rule15_3Test.class, Rule16_1Test.class, Rule16_5Test.class, Rule18_4Test.class,
 		Rule2_2Test.class, Rule2_3Test.class, Rule20_10Test.class, Rule20_11Test.class, Rule20_12Test.class,
 		Rule20_8Test.class, Rule20_9Test.class, Rule6_4Test.class, Rule6_5Test.class, Rule8_12Test.class,
-		Rule8_6Test.class, Rule9_3Test.class, Rule20_5Test.class })
+		Rule8_6Test.class, Rule9_3Test.class, Rule20_5Test.class, Rule20_4Test.class, Rule20_7Test.class, Rule14_6Test.class,
+		Rule13_3Test.class, Rule13_4Test.class, Rule12_7Test.class})
 
 public class JunitTestSuite {
 	
@@ -21,6 +22,7 @@ public class JunitTestSuite {
 		TestUtil.importProject("test0","test0.zip");
 		TestUtil.importProject("test1","test1.zip");
 		TestUtil.importProject("test2","test2.zip");
+		TestUtil.importProject("test3","test3.zip");
 	}
 	
 	@AfterClass
@@ -28,6 +30,7 @@ public class JunitTestSuite {
 		TestUtil.deleteProject("test0");
 		TestUtil.deleteProject("test1");
 		TestUtil.deleteProject("test2");
+		TestUtil.deleteProject("test3");
 	}
 
 }

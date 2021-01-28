@@ -63,7 +63,7 @@ public class BitFieldDeclaredWithoutAppropriateTypeGroup implements IRelationBui
 						{
 							f = (IASTSimpleDeclSpecifier)decl;
 					
-							if(f.isSigned() || f.isUnsigned())
+							if((f.isSigned() || f.isUnsigned()) && f.isLong() == false && f.isLongLong() == false && f.isShort() == false )
 							{
 								k1 = 1;
 							}

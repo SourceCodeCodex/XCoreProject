@@ -8,32 +8,30 @@ import ro.lrg.xcore.metametamodel.IRelationBuilder;
 import ro.lrg.xcore.metametamodel.RelationBuilder;
 
 /**
- * Rule14_8
- * The statement forming the body of a switch, while, do … while or for statement shall be a compound statement
+ * Rule 14.6 (required): For any iteration statement there shall be at most one break
+ * statement used for loop termination.
  */
 
 @RelationBuilder
-public class Rule14_8 implements IRelationBuilder<XCStatement,XCProject>{
+public class Rule14_6 implements IRelationBuilder<XCStatement,XCProject>{
 	
 	@Override
 	public Group<XCStatement> buildGroup(XCProject arg0) {
-		
+
 		Group<XCCompUnit> compU = new Group<>();
-		Group<XCStatement> statement = new Group<>();
-		Group<XCStatement> s = new Group<>();
-	
+		Group<XCStatement> loopS = new Group<>();
+		Group<XCStatement> x = new Group<>();
 		compU = arg0.compUnitGroup();
-		for(XCCompUnit cu: compU.getElements()) 
+		for(XCCompUnit cu: compU.getElements())
 		{
-			s = cu.statementWithoutEnclosedBodyGroup();
-			for(XCStatement cs:s.getElements())
-			{
-				statement.add(cs);
-			}
+			x = cu.loopWithMoreThanABreakStatementGroup();
+	        for(XCStatement cs:x.getElements()) 
+	        {
+				loopS.add(cs);
+	        }
 		}
-
 		
-		return statement;
+		return loopS;
 	}
-}
 
+}
