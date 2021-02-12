@@ -52,7 +52,7 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 			public int visit(IASTDeclarator c) {
 				
 				if(c instanceof IASTFieldDeclarator && c.isPartOfTranslationUnitFile())
-				{   int ok = 1;
+				{   boolean ok = false;
 			    	IASTExpression size = ((IASTFieldDeclarator) c).getBitFieldSize();
 			    	if(isNumeric(size.getRawSignature()) == true)
 					{   
@@ -72,7 +72,7 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 							
 			    					if(f.isSigned())
 			    					{	
-			    						ok = 0;
+			    						ok = true;
 									
 			    					}
 			    				}
@@ -80,29 +80,10 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 			    				else
 			    					if(decl instanceof CASTTypedefNameSpecifier )
 			    					{
-			    						IBinding bindings[] = ((CASTTypedefNameSpecifier) decl).findBindings(((CASTTypedefNameSpecifier) decl).getName(),false);
-								
-			    						if(bindings.length > 0)
-			    						{ 
-									
-			    							IBinding bind = bindings[0];
-			    							if(bind instanceof ITypedef)
-			    							{
-			    								IType type = ((ITypedef) bind).getType();
-			    								if(type instanceof IBasicType) 
-			    								{   
-			    									IBasicType basicType = (IBasicType)type;
-			    									if(basicType.isSigned())
-													{
-														ok = 0;
-													
-													}
-			    								}		
-			    							}
-			    						}
+			    						ok = isSigned(decl);
 			    					}
 							
-			    				if(ok == 0)
+			    				if(ok == true)
 			    				{
 			    					XCDeclaration d = Factory.getInstance().createXCDeclaration(c);
 			    					res.add(d);
@@ -113,6 +94,43 @@ public class SignedBitFieldWith1BitLengthGroup implements IRelationBuilder<XCDec
 				}
 				return PROCESS_CONTINUE;
 			
+			}
+			
+			private boolean isSigned(IASTDeclSpecifier decl)
+			{
+				IBinding bindings[] = ((CASTTypedefNameSpecifier) decl).findBindings(((CASTTypedefNameSpecifier) decl).getName(),false);
+				
+				if(bindings.length > 0)
+				{ 
+			
+					IBinding bind = bindings[0];
+					if(bind instanceof ITypedef)
+					{
+						IType type = getType((ITypedef)bind);
+						if(type instanceof IBasicType) 
+						{   
+							IBasicType basicType = (IBasicType)type;
+							if(basicType.isSigned())
+							{
+								return true;						
+							}
+						}		
+					}
+				}
+				
+				return false;
+			}
+			
+			private IType getType(IType type)
+			{
+				if(type instanceof ITypedef)
+				{
+					type = ((ITypedef) type).getType();
+					return getType(type);
+				}
+				else
+					return type;
+				
 			}
 			
 			private boolean isNumeric(String s)

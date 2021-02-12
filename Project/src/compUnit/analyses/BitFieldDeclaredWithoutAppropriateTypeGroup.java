@@ -54,62 +54,23 @@ public class BitFieldDeclaredWithoutAppropriateTypeGroup implements IRelationBui
 				if(c instanceof IASTFieldDeclarator && c.isPartOfTranslationUnitFile() )
 				{
 					IASTNode p = c.getParent();
-					IASTSimpleDeclSpecifier f = null;
-					int ok = 0, k1 = 0, k2 = 0;
+					boolean ok = false;
+					
 					if(p instanceof IASTSimpleDeclaration) {
-				
+	
 						IASTDeclSpecifier decl = ((IASTSimpleDeclaration) p).getDeclSpecifier();
+						
 						if(decl instanceof IASTSimpleDeclSpecifier)
 						{
-							f = (IASTSimpleDeclSpecifier)decl;
-					
-							if((f.isSigned() || f.isUnsigned()) && f.isLong() == false && f.isLongLong() == false && f.isShort() == false )
-							{
-								k1 = 1;
-							}
-							int type = f.getType();
-							if(type == IASTSimpleDeclSpecifier.t_int || type == IASTSimpleDeclSpecifier.t_unspecified)
-							{
-								k2 = 1;
-							}
-					
-							if(k1==1 && k2==1)
-							{
-								ok = 1;
-								
-							}
+							ok = isSimpleAppropriateType((IASTSimpleDeclSpecifier) decl);
 						}
 						else
 							if(decl instanceof CASTTypedefNameSpecifier )
 							{   
-								IBinding bindings[] = ((CASTTypedefNameSpecifier) decl).findBindings(((CASTTypedefNameSpecifier) decl).getName(),false);
-								
-								if(bindings.length > 0)
-								{
-									IBinding bind = bindings[0];
-									
-									if(bind instanceof ITypedef)
-									{
-										IType type = ((ITypedef) bind).getType();
-										if(type instanceof IBasicType) 
-										{   
-											IBasicType basicType = (IBasicType)type;
-											if(basicType.isUnsigned() || basicType.isSigned())
-											{
-												if(!(basicType.isLong() || basicType.isShort() || basicType.isLongLong()))
-												{				
-													if(basicType.getKind() == IBasicType.Kind.eInt)
-													{
-														ok = 1;
-													}
-												}
-											}
-										}	
-									}
-								}
+								ok = isTypedefAppropriateType(decl);
 							}
 							
-						if(ok==0)
+						if(ok==false)
 						{
 							XCDeclaration d=Factory.getInstance().createXCDeclaration(c);
 							res.add(d);
@@ -118,6 +79,75 @@ public class BitFieldDeclaredWithoutAppropriateTypeGroup implements IRelationBui
 					}
 				}
 				return PROCESS_CONTINUE;
+			}
+			
+			
+			private boolean isSimpleAppropriateType(IASTSimpleDeclSpecifier decl)
+			{   
+				int k1 = 0, k2 = 0;
+			    IASTSimpleDeclSpecifier f = null;
+			    
+				f = (IASTSimpleDeclSpecifier)decl;
+				
+				if((f.isSigned() || f.isUnsigned()) && f.isLong() == false && f.isLongLong() == false && f.isShort() == false )
+				{
+					k1 = 1;
+				}
+				int type = f.getType();
+				if(type == IASTSimpleDeclSpecifier.t_int || type == IASTSimpleDeclSpecifier.t_unspecified)
+				{
+					k2 = 1;
+				}
+		
+				if(k1==1 && k2==1)
+				{
+					return true;	
+				}
+				
+				return false;
+			}
+			
+			
+			private boolean isTypedefAppropriateType(IASTDeclSpecifier decl)
+			{
+				IBinding bindings[] = ((CASTTypedefNameSpecifier) decl).findBindings(((CASTTypedefNameSpecifier) decl).getName(),false);
+				
+				if(bindings.length > 0)
+				{
+					IBinding bind = bindings[0];
+					
+					if(bind instanceof ITypedef)
+					{
+						IType type = getType((ITypedef)bind);
+						if(type instanceof IBasicType) 
+						{   
+							IBasicType basicType = (IBasicType)type;
+							if(basicType.isUnsigned() || basicType.isSigned())
+							{
+								if(!(basicType.isLong() || basicType.isShort() || basicType.isLongLong()))
+								{				
+									if(basicType.getKind() == IBasicType.Kind.eInt)
+									{
+										return true;
+									}
+								}
+							}
+						}	
+					}
+				}
+				return false;
+			}
+			
+			private IType getType(IType type)
+			{
+				if(type instanceof ITypedef)
+				{
+					type = ((ITypedef) type).getType();
+					return getType(type);
+				}
+				else
+					return type;
+				
 			}
 		};
 		
