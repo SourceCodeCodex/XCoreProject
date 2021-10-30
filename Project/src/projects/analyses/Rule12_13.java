@@ -25,10 +25,8 @@ public class Rule12_13 implements IRelationBuilder<XCExpression,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			exp = cu.expressionWithIncrAndDecrOperatorsGroup();
-	        for(XCExpression cs : exp.getElements()) 
-	        {
-				exprB.add(cs);
-	        }
+			exprB.addAll(exp.getElements());
+	 
 		}
 	
 		return exprB;

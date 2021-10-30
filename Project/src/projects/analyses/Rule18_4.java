@@ -25,10 +25,8 @@ public class Rule18_4 implements IRelationBuilder<XCSpecifier,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			u = cu.unionGroup();
-	        for(XCSpecifier cs: u.getElements()) 
-	        {
-				unions.add(cs);
-	        }
+			unions.addAll(u.getElements());
+	      
 		}
 		
 		return unions;

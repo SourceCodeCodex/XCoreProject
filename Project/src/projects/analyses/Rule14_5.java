@@ -24,10 +24,8 @@ public class Rule14_5 implements IRelationBuilder<XCStatement,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			contS = cu.continueStatementGroup();
-	        for(XCStatement cs:contS.getElements()) 
-	        {
-				continueS.add(cs);
-	        }
+			continueS.addAll(contS.getElements());
+	        
 		}
 		
 		return continueS;

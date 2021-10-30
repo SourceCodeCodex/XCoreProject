@@ -25,10 +25,8 @@ public class Rule14_6 implements IRelationBuilder<XCStatement,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			x = cu.loopWithMoreThanABreakStatementGroup();
-	        for(XCStatement cs:x.getElements()) 
-	        {
-				loopS.add(cs);
-	        }
+			loopS.addAll(x.getElements());
+	        
 		}
 		
 		return loopS;

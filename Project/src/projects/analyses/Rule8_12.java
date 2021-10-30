@@ -26,10 +26,8 @@ public class Rule8_12 implements IRelationBuilder<XCDeclaration,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			f = cu.externArrayDeclarationWithoutSizeGroup();
-			for(XCDeclaration fd:f.getElements()) 
-			{
-				decl.add(fd);
-			}
+			decl.addAll(f.getElements());
+			
 		}
 	
 		

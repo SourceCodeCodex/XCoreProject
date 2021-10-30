@@ -24,10 +24,8 @@ public class Rule14_4 implements IRelationBuilder<XCStatement,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			gtS = cu.gotoStatementGroup();
-	        for(XCStatement cs:gtS.getElements()) 
-	        {
-				gotoS.add(cs);
-	        }
+			gotoS.addAll(gtS.getElements());
+	        
 		}
 	
 		return gotoS;

@@ -26,10 +26,8 @@ public class Rule15_3 implements IRelationBuilder<XCStatement,XCProject>{
 		for(XCCompUnit cu: compU.getElements()) 
 		{
 			s = cu.switchStatementWithoutFinalDefaultClauseGroup();
-			for(XCStatement cs:s.getElements())
-			{
-				switchS.add(cs);
-			}
+			switchS.addAll(s.getElements());
+			
 		}
 
 		

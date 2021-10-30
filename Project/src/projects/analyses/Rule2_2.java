@@ -25,10 +25,8 @@ public class Rule2_2 implements IRelationBuilder<XCComment,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			comm = cu.commentC99Group();
-	        for(XCComment cs:comm.getElements()) 
-	        {
-				comments.add(cs);
-	        }
+			comments.addAll(comm.getElements());
+	        
 		}
 	
 		return comments;

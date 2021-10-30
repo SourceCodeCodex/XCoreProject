@@ -22,10 +22,8 @@ public class Rule20_5 implements IRelationBuilder<XCExpression,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			f = cu.errnoGroup();
-	        for(XCExpression cs : f.getElements()) 
-	        {
-				functionCall.add(cs);
-	        }
+			functionCall.addAll(f.getElements());
+	        
 		}
 	
 		return functionCall;

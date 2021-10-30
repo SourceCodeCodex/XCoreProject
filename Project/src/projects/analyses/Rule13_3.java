@@ -24,10 +24,8 @@ public class Rule13_3 implements IRelationBuilder<XCExpression,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			exp = cu.floatingPointExpressionsTestedForEqualityInequalityGroup();
-	        for(XCExpression cs : exp.getElements()) 
-	        {
-				exprU.add(cs);
-	        }
+			exprU.addAll(exp.getElements());
+	      
 		}
 	
 		return exprU;

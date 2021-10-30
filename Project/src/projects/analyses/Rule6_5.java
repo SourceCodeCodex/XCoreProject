@@ -25,10 +25,8 @@ public class Rule6_5 implements IRelationBuilder<XCDeclaration,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			f = cu.signedBitFieldWith1BitLengthGroup();
-			for(XCDeclaration fd:f.getElements()) 
-			{
-				decl.add(fd);
-			}
+			decl.addAll(f.getElements());
+		
 		}
 	
 		

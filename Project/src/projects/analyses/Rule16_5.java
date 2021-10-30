@@ -25,10 +25,8 @@ public class Rule16_5 implements IRelationBuilder<XCDeclaration,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			f = cu.functionsWithNoParamGroup();
-			for(XCDeclaration fd:f.getElements()) 
-			{
-				funcD.add(fd);
-			}
+			funcD.addAll(f.getElements());
+			
 		}
 	
 		

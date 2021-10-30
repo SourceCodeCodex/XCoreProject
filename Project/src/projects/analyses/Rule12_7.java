@@ -25,10 +25,8 @@ public class Rule12_7 implements IRelationBuilder<XCExpression,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			exp = cu.bitwiseOperatorsAppliedToSignedOperandsGroup();
-	        for(XCExpression cs : exp.getElements()) 
-	        {
-				exprU.add(cs);
-	        }
+			exprU.addAll(exp.getElements());
+	   
 		}
 	
 		return exprU;

@@ -26,10 +26,8 @@ public class Rule14_8 implements IRelationBuilder<XCStatement,XCProject>{
 		for(XCCompUnit cu: compU.getElements()) 
 		{
 			s = cu.statementWithoutEnclosedBodyGroup();
-			for(XCStatement cs:s.getElements())
-			{
-				statement.add(cs);
-			}
+			statement.addAll(s.getElements());
+			
 		}
 
 		

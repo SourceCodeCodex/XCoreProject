@@ -25,10 +25,8 @@ public class Rule20_8 implements IRelationBuilder<XCIncludeStatement,XCProject>{
 		for(XCCompUnit cu: compU.getElements()) 
 		{
 			s = cu.signalHeaderGroup();
-			for(XCIncludeStatement cs:s.getElements())
-			{
-				includeStatement.add(cs);
-			}
+			includeStatement.addAll(s.getElements());
+		
 		}
 
 		

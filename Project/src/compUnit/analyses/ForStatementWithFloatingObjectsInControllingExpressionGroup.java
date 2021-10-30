@@ -67,10 +67,10 @@ public class ForStatementWithFloatingObjectsInControllingExpressionGroup impleme
 					
 						public int visit(IASTExpression c)
 						{	
-							
+				
 							IType type = c.getExpressionType();
 							type = getType(type);		
-						
+							
 							if(type instanceof IBasicType) 
 							{
 								IBasicType.Kind kind = ((IBasicType) type).getKind();

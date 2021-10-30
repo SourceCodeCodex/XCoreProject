@@ -2,7 +2,6 @@ package projects.analyses;
 
 import project.metamodel.entity.XCCompUnit;
 import project.metamodel.entity.XCDeclaration;
-import project.metamodel.entity.XCFunction;
 import project.metamodel.entity.XCProject;
 import ro.lrg.xcore.metametamodel.Group;
 import ro.lrg.xcore.metametamodel.IRelationBuilder;
@@ -26,10 +25,8 @@ public class Rule8_6 implements IRelationBuilder<XCDeclaration,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			f = cu.functionDeclarationAtBlockScopeGroup();
-			for(XCDeclaration fd:f.getElements()) 
-			{
-				funcD.add(fd);
-			}
+			funcD.addAll(f.getElements());
+			
 		}
 	
 		

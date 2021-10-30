@@ -23,10 +23,8 @@ public class Rule20_10 implements IRelationBuilder<XCExpression,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			f = cu.atofAtoiAtolFunctionGroup();
-	        for(XCExpression cs : f.getElements()) 
-	        {
-				functionCall.add(cs);
-	        }
+			functionCall.addAll(f.getElements());
+	       
 		}
 	
 		return functionCall;

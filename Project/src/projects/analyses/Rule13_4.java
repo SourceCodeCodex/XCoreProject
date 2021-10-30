@@ -27,10 +27,8 @@ public class Rule13_4 implements IRelationBuilder<XCStatement,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			x = cu.forStatementWithFloatingObjectsInControllingExpressionGroup();
-	        for(XCStatement cs:x.getElements()) 
-	        {
-				forS.add(cs);
-	        }
+			forS.addAll(x.getElements());
+	       
 		}
 		
 		return forS;

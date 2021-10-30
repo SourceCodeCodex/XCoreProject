@@ -26,10 +26,8 @@ public class Rule9_3 implements IRelationBuilder<XCSpecifier,XCProject>{
 		for(XCCompUnit cu: compU.getElements()) 
 		{
 			e = cu.enumerationWithIrregularInitializationGroup();
-			for(XCSpecifier cs:e.getElements())
-			{
-				enumeration.add(cs);
-			}
+			enumeration.addAll(e.getElements());
+			
 		}
 
 		

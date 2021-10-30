@@ -25,10 +25,8 @@ public class Rule6_4 implements IRelationBuilder<XCDeclaration,XCProject>{
 		for(XCCompUnit cu: compU.getElements())
 		{
 			f = cu.bitFieldDeclaredWithoutAppropriateTypeGroup();
-			for(XCDeclaration fd:f.getElements()) 
-			{
-				decl.add(fd);
-			}
+			decl.addAll(f.getElements());
+			
 		}
 	
 		

@@ -17,7 +17,7 @@ public class FolderName implements IPropertyComputer<String, XCCompUnit> {
 		folder = folder.substring(0, index1);
 		int index2 = folder.lastIndexOf('/');
 		folder = folder.substring(index2+1);
-	    return null;
+	    return folder;
 		   
 	}
 
